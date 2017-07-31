@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="myApp">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+    <div ng-controller="myController">
+        姓名：<input ng-model="name" ng-change="changeVal()">
+        性别：<input ng-model="sex" ng-change="changeVal()">
+        年龄：<input ng-model="age" ng-change="changeVal()">
+        电话：<input ng-model="tel" ng-change="changeVal()">
+        <span  ng-if="information">
+            你的信息为：姓名:{{name}},性别:{{sex}},年龄:{{age}},电话:{{tel}}
+        </span>
+    </div>
+</body>
+</html>
+<script src="lib/angular.js"></script>
+<script>
+    var app = angular.module('myApp',[]);
+    app.controller("myController",function ($scope) {
+        $scope.name = '';
+        $scope.sex = '';
+        $scope.age = '';
+        $scope.tel = '';
+        $scope.information = false;
+        $scope.changeVal = function () {
+            if($scope.name && $scope.sex && $scope.age && $scope.tel){
+                $scope.information = true;
+            }else {
+                $scope.information = false;
+            }
+        }
+
+    })
+</script>

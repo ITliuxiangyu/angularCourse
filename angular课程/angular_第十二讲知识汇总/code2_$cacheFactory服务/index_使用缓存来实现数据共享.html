@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="myApp">
+<head>
+    <meta charset="UTF-8">
+    <title>使用缓存来实现数据共享</title>
+</head>
+<body>
+
+    <div ng-controller="myController">
+        {{name}}
+    </div>
+
+    <div ng-controller="otherController">
+        {{name}}
+    </div>
+
+</body>
+</html>
+<script src="../lib/angular.js"></script>
+<script>
+    angular.module('myApp',[]).controller('myController',['$scope','$cacheFactory',function ($scope,$cacheFactory) {
+        //创建缓存对象
+        var cache = $cacheFactory('myCache');
+
+        //缓存对象也有自己的一些方法
+        //put方法允许我们把任意对象以键值对的形式放入缓存中
+        //这时候缓存里有了name:张三这个键值对
+        cache.put('name','张三');
+        //get()方法获取对象key的值
+        $scope.name = cache.get('name');
+
+    }]).controller('otherController',['$scope','$cacheFactory',function ($scope,$cacheFactory) {
+        //我们创建过缓存对象后就不能再创建,需要用$cacheFactory的get()方法来获取这个缓存对象
+        var myCache = $cacheFactory.get('myCache');
+        //获取对应key的值
+        $scope.name = myCache.get('name');
+    }]);
+</script>

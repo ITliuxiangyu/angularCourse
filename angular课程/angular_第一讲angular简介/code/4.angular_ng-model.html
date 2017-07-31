@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="myApp">
+<head>
+    <meta charset="UTF-8">
+    <title>ng-model</title>
+</head>
+<body>
+    <div ng-controller="myController">
+        <input placeholder="请输入" ng-model="name">
+        {{name}}
+        <input placeholder="请输入" ng-bind="name">
+        <button ng-click="changeValue()">改变数值</button>
+    </div>
+</body>
+<script src="//cdn.bootcss.com/angular.js/1.5.8/angular.min.js"></script>
+<script>
+    /*
+    * ng-model:绑定一个变量到元素,一般用于双向数据绑定
+    * ng-bind和ng-model的区别:ng-bind一般用于展示数据,不参与数据操作,而ng-model可以操作变量
+    * js原生的延迟方法或者回调是不能传播把angular的变量变化传播到DOM的,需要用angular的方法手动传播$apply $watch
+    * */
+    angular.module('myApp',[])
+    .controller('myController',function ($scope) {
+        $scope.name = '张三';
+        setTimeout(function () {
+            console.log("走了吗?");
+            $scope.name = '李四';
+        },1000);
+        $scope.changeValue = function () {
+            $scope.name = '李四';
+        }
+    });
+</script>
+</html>

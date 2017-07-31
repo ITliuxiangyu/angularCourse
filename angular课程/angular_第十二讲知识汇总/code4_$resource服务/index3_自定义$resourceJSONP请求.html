@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="myApp">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body ng-controller="myController">
+    <div ng-repeat="new in data.T1348647853363">
+        <h3>{{new.title}}</h3>
+    </div>
+</body>
+</html>
+<script src="../lib/angular.js"></script>
+<script src="../lib/angular-resource.min.js"></script>
+<script>
+    /*
+    * $resource可以接收几个参数
+    * 1.请求的对象,一般为请求的url
+    * 2.随url一起发送的请求参数
+    * 3.请求的选项,这个一般用于自定义请求的设置
+    * */
+    /*
+    * $resource的设置对象和$http非常相似,仅有少量不同
+    * 1.method: 指的是我们想要用来发送http请求的方法类型,其必须是以下值之一: GET,POST,JSONP,DELETE,PUT(不区分大小写)
+    * 2.url:和$http一样都是请求的接口地址
+    * 3.params: 预绑定对象,随请请求参数一起发送
+    * 4.isArray: 是否是数组,如果为true那么返回的对象会以数组的形式返回
+    * 5.transformRequest: 函数或函数组, 这个函数用来对http请求体和头信息进行转换,并返回转换后的版本
+    * 6.transformResponse: 函数或函数组,这个函数对响应体和响应头信息进行转换,并返回转化后的版本,不返回的话我们的资源对象是没有数据的,这个比较常用,我们以前在$http中写的逻辑可以写在这里,返回的时候只返回我们想要的数据
+    * 7.cache: 是否缓存请求的数据,也会放在默认的$http缓存对象里
+    * 8.timeout: 超时时间
+    * 9.withCredentials: 如果设置为true,那么XHR请求对象中就会设置withCredentials标记,CORS请求默认不会发送Cookie,withCredentials标记会在请求中加入Access- Control-Allow-Credentials头,这样请求就会携带目标域的cookie(了解不需要记住)
+    * 10.responseType:该选项会在请求中设置XMLHttpRequestResponseType属性,和$http一致(了解)
+    * */
+    angular.module('myApp',['ngResource']).config([function () {
+
+    }]).controller('myController',['$scope','$resource','$timeout',function ($scope,$resource,$timeout) {
+//        var myUrl = 'http://c.m.163.com/nc/article/headline/T1348647853363/0-140.html';
+//        var url = 'http://localhost:3000/?myUrl=' + myUrl  + '&callback=JSON_CALLBACK';
+        var url = 'http://localhost:3000/';
+        var obj = $resource(url,{},{
+            jsonp:{
+                method:'jsonp',
+                params:{
+                    name:'1'
+                },
+//                url:'wy.json',
+                timeout:5000,
+                //如果不需要转换就不用写
+                transformRequest:function (data,hearFn) {
+                    return JSON.stringify(data);
+                },
+                transformResponse:function (data,hearFn) {
+                    //如果请求下来的是字符串我们可以对其进行转换成对象
+                    return JSON.parse(data);
+                }
+            }
+        });
+//        var obj = $resource(url,{myUrl:'http://c.m.163.com/nc/article/headline/T1348647853363/0-140.html'},{method:'POST',timeout:1});
+//        $timeout(function () {
+//            $scope.data = obj.get();
+//        },1000);
+//        $scope.$watch('data',function (newVal,oldVal) {
+//           console.log(newVal,oldVal);
+//        });
+
+    }])
+</script>

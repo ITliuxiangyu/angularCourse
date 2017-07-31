@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="myApp">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+    <div ng-init="name='张三'">
+        {{name}}
+    </div>
+    {{name}}
+</body>
+<script src="//cdn.bootcss.com/angular.js/1.5.8/angular.min.js"></script>
+<script>
+    /*
+    * angular ng-app 加载流程
+    * 首先加载所有html,查找有ng-app的元素,然后确定angular生效的范围
+    * 确定到生效后页面完成加载
+    * */
+    /*
+    * ng-init angular初始化变量的方法
+    * */
+//1.创建一个angular对象
+    var app = angular.module('myApp',[]);
+    console.log(app);
+</script>
+</html>

@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style>
+        div{
+            width: 100px;
+            height: 100px;
+            background-color: red;
+            opacity: 1;
+            transition: 3s;
+            -webkit-transition: 3s;
+        }
+        div:hover{
+            opacity: 0;
+            /*display: none;*/
+        }
+    </style>
+</head>
+    <body>
+        <div id="myDiv"></div>
+        <button onclick="changeAnimate()">点击</button>
+    </body>
+<script>
+    /*
+    * 原生动画实现消失隐藏动画,动画完成后进行操作繁琐而不自由,并且在angularjs中我们的指令帮助我们对dom进行处理,所以我们可以利用指令对动画进行管理
+    * */
+//    setTimeout(function () {
+//        document.getElementById('myDiv').style.opacity = 0;
+//    },1);
+    function changeAnimate() {
+        document.getElementById('myDiv').style.opacity = 0;
+        setTimeout(function () {
+            document.getElementsByTagName('body')[0].removeChild(document.getElementById('myDiv'));
+        },3000);
+    }
+</script>
+</html>

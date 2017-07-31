@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="myApp">
+<head>
+    <meta charset="UTF-8">
+    <title>向下传播事件</title>
+</head>
+<body>
+<div ng-controller="rootController"><!--最顶层的父controller-->
+
+    <button ng-click="broadCast()">向下传播事件</button>
+
+    <div ng-controller="parentController"><!--父controller-->
+
+        <button ng-click="changeRootVal()">改变上级的值</button>
+
+        <div ng-controller="childController"><!--子controller-->
+            <button ng-click="changeRootVal()">改变上上级的值</button>
+
+        </div>
+
+    </div>
+</div>
+</body>
+</html>
+<script src="../lib/angular.js"></script>
+<script>
+    angular.module('myApp',[]).controller('rootController',['$scope',function ($scope) {
+        /*
+        * 和$emit一样$broadcast对于事件的传播也是会一直向下传播
+        * */
+        $scope.name = 'root';
+        $scope.broadCast = function () {
+            $scope.$broadcast('hi','我是zaq');
+        };
+        $scope.printVal = function () {
+            alert($scope.name);
+        }
+    }]).controller('parentController',['$scope',function ($scope) {
+        $scope.$on('hi',function (evt,msg) {
+            /*
+            * $broadcast传播的事件evt对象同样和$emit传播的事件对象一样具有相同的属性(少了一个stopPropagation属性)
+            * 并且同样可以操作上级作用域里的$scope持有的任何对象
+            * */
+            console.log(evt.targetScope.name);
+            console.log("parentController收到---" + msg);
+
+            $scope.changeRootVal = function () {
+                evt.targetScope.name = '被parentController改变了';
+                evt.targetScope.printVal();
+            }
+        })
+
+    }]).controller('childController',['$scope',function ($scope) {
+        $scope.$on('hi',function (evt,msg) {
+            console.log("childController收到---" + msg);
+            $scope.changeRootVal = function () {
+                evt.targetScope.name = '被childController改变了';
+                evt.targetScope.printVal();
+            }
+        })
+    }])
+</script>

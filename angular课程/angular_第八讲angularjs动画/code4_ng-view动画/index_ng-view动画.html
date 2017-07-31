@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="myApp">
+<head>
+    <meta charset="UTF-8">
+    <title>ng-view动画</title>
+    <style>
+        /* ng-view的过渡动画和关键帧的 */
+        /*.slide-in-left.ng-enter{*/
+            /*!*新的视图内容准备好了*!*/
+            /*position: relative;*/
+            /*left: 300px;*/
+            /*transition: 2s;*/
+        /*}*/
+        /*.slide-in-left.ng-enter.ng-enter-active {*/
+            /*position: relative;*/
+            /*left: 0;*/
+        /*}*/
+        /*正在离开，已有的内容将被隐藏*/
+        /*.slide-in-left.ng-leave{*/
+            /*transition: 2s;*/
+            /*position: relative;*/
+            /*left: 300px;*/
+        /*}*/
+        /*.slide-in-left.ng-leave-active{*/
+            /*position: relative;*/
+            /*left: 0;*/
+        /*}*/
+        /*@keyframes ngViewAnimate {*/
+            /*from{*/
+                /*position: relative;*/
+                /*left: 300px;*/
+            /*}*/
+            /*to{*/
+                /*position: relative;*/
+                /*left: 0;*/
+            /*}*/
+
+        /*}*/
+        /*.slide-in-left.ng-enter{*/
+            /*animation: ngViewAnimate 1s;*/
+        /*}*/
+    </style>
+</head>
+<body>
+    <ng-view class="slide-in-left"></ng-view>
+</body>
+<script src="../lib/jquery.js"></script>
+<script src="../lib/angular.js"></script>
+<script src="../lib/angular-route.js"></script>
+<script src="../lib/angular-animate.js"></script>
+<script>
+    angular.module('myApp',['ngRoute','ngAnimate']).config(['$routeProvider',function ($routeProvider) {
+        $routeProvider.when('/',{
+            templateUrl:'home.html',
+            controller:'myController'
+        });
+        $routeProvider.when('/other',{
+            templateUrl:'other.html',
+            controller:'myController'
+        });
+
+    }]).controller('myController',['$scope','$location','$timeout',function ($scope,$location) {
+        $scope.goNewView = function () {
+            $location.path('/other')
+        };
+        $scope.goBack = function () {
+            window.history.go(-1);
+        };
+
+    }])
+/*服务创建的动画*/
+    .animation('.slide-in-left', function ($location) {
+        var myClass = {
+            position: "relative",
+            left: 0 + 'px'
+        };
+        var sClass = {
+            top: 0,
+            left: 0
+        };
+        return {
+            enter: function(element, done) {
+
+                console.log($location.path());
+                element.css(myClass).animate(sClass, 450, function () {
+                    if ($location.path() == '/'){
+                        myClass = {
+                            position: "relative",
+                            left: document.body.clientWidth + 'px'
+                        }
+                    }else {
+                        myClass = {
+                            position: "relative",
+                            left: document.body.clientWidth + 'px'
+                        }
+                    }
+                    done();
+                });
+            }
+        };
+    });
+</script>
+</html>

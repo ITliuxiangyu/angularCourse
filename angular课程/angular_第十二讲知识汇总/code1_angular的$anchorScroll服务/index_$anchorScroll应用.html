@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="myApp">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style>
+        .content{
+            width: 300px;
+            height: 500px;
+            border: solid 1px black;
+            margin-top: 3px;
+        }
+        .list{
+            width: 200px;
+            position: fixed;
+            top:0;
+            right: 0;
+        }
+        .list li {
+            margin-top: 5px;
+            color: blue;
+        }
+    </style>
+</head>
+<body ng-controller="myController">
+    <!--下面我们完成一个需求,场景可以想象为百度百科,右边一个大纲列表,左边是内容,我们点击大纲列表跳转到指定的文章块中-->
+    <ul  class="list">
+        <li ng-repeat="id in mine.idArray" ng-click="mine.goToDiv($index)">
+            {{"点击跳转到div" + id}}
+        </li>
+    </ul>
+    <div class="content" ng-repeat="id in mine.idArray" id="{{'div' + $index}}">
+        {{"我是div" + id}}
+    </div>
+
+</body>
+</html>
+<script src="../lib/angular.js"></script>
+<script>
+    angular.module('myApp',[]).controller('myController',['$scope','$location','$anchorScroll',function ($scope,$location,$anchorScroll) {
+        $scope.mine = {
+            idArray : [1,2,3,4,5,6],
+            goToDiv:goToDiv
+        };
+        function goToDiv(index) {
+            $location.hash("div" + index);
+//            $location.hash('top');//其有一个默认的top
+        }
+    }])
+</script>

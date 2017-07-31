@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="myApp">
+<head>
+    <meta charset="UTF-8">
+    <title>使用$resource服务</title>
+</head>
+<body ng-controller="myController">
+
+    <div ng-repeat="new in data.T1348647853363">
+        <h3>{{new.title}}</h3>
+    </div>
+
+</body>
+</html>
+<script src="../lib/angular.js"></script>
+<script src="../lib/angular-resource.min.js"></script>
+<script>
+    /*
+    * angular给我们提供了一个可选服务$resource,也是网络交互方面的服务,这个服务创建一个资源对象,其把网络请求看做一个资源,我们可以用它和支持RESTful的服务器端数据源进行交互
+    * 其使用起来非常的方便,因为其封装的更接近于底层,使用它我们可以避开复杂的回调
+    * */
+    //下载后在依赖列表里注入
+    angular.module('myApp',['ngResource']).config([function () {
+
+    }]).controller('myController',['$scope','$resource',function ($scope,$resource) {
+        var obj = $resource('wy.json');
+        $scope.data = obj.get();
+        console.log($scope.data);//正常打印
+        console.log($scope.data.T1348647853363);//undefined
+        /*
+        * 为什么console.log($scope.data)可以正常打印,而console.log($scope.data.T1348647853363)是undefined?
+        * 我们看着是同步的写法,其实它也是异步的网络请求,耗时操作不可避免的需要异步操作,否则会卡住主线程,那么为什么异步的能正常打印呢?
+        * 因为$scope.data = obj.get();这一步的时候$scope.data已经变成了$resource资源对象,作为$resource的资源对象,其会被$resource处理,在获取到数据后$resource会把数据自动填充到$scope.data,所有直接使用$scope.data的方法都会受到,然后这些方法才真正运行
+        * 所以我们可以直接使用$scope.data这个$resource资源对象,不能间接的使用它,因为间接的使用没法收到数据填充的响应,也可以说是间接使用的方法不能被数据填充响应
+        * 这里可能有点难以理解,大家可能会疑问,为什么上面的循环能间接使用,在数据填充的时候会触发脏值检查,而js里面的不会,不过页面上的数据也是需要等到填充完成才能显示出来
+        * 这样我们可以在controller里省下很多的逻辑操作代码
+        * */
+    }])
+</script>

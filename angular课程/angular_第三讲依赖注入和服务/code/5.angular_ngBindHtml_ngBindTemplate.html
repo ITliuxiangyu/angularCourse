@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="myApp">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link type="text/css" rel="stylesheet" href="css/myCss.css">
+</head>
+<body ng-controller="myController">
+
+    <!--<div ng-bind-template="{{myTemplate}}"></div>-->
+    <iframe class="myIframe" seamless frameborder="0"  src="http://www.baidu.com"></iframe>
+    <button ng-click="changeHtml()">改变网页</button>
+    <!--<div ng-bind-html="outHtml"></div>-->
+
+</body>
+<script src="js/angular.js"></script>
+<script>
+    /*
+    * ng-bind-template: 使用情况ng-bind-template="{{myTemplate}}",在webStrom中这样写会报错,但是这是正确的,另外ng-bind-template不能正确解析html标签,只能以字符串的形式出现
+    * ng-bind-template:可以跟很多个绑定
+    * SCE:strict contextual escaping 严格的上下文,避免了一些XSS攻击,如果我们需要加载一个html网页就需要把其转换成安全的
+    * */
+    angular.module('myApp',[]).controller('myController',['$scope','$sce',function ($scope,$sce) {
+        $scope.name = 'ss';
+        $scope.myTemplate = '<div>22222</div>';
+//        $scope.outHtml = '3.angular_ng-src.html';
+//        $scope.outHtml = 'http://www.baidu.com';
+//        $scope.outHtml = '<div>eewe</div>';
+
+        $scope.outHtml = "http://www.baidu.com";
+        $scope.changeHtml = function () {
+//            $scope.outHtml = $sce.trustAs($sce.RESOURCE_URL,'http://www.baidu.com');
+            $scope.outHtml = 'http://www.baidu.com';
+        }
+    }]);
+</script>
+</html>

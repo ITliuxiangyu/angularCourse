@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="myApp">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style>
+        /*.fade {*/
+            /*width: 100px;*/
+            /*height: 100px;*/
+            /*background-color: red;*/
+            /*transition: 2s;*/
+        /*}*/
+        /*.fade.ng-enter{*/
+            /*width: 0;*/
+            /*height: 0;*/
+        /*}*/
+        /*.fade.ng-enter.ng-enter-active{*/
+            /*width: 200px;*/
+            /*height: 200px;*/
+        /*}*/
+        @keyframes myAnimation {
+            form{
+                width: 0;
+                height: 0;
+                background-color: red;
+            }
+            to{
+                height: 200px;
+                width:200px;
+                background-color: #2aabd2;
+            }
+        }
+        .fade {
+        width: 100px;
+        height: 100px;
+        background-color: red;
+        }
+        .fade.ng-enter{
+            animation: myAnimation 2s ease forwards;
+        }
+
+        @keyframes myAnimation1 {
+            form{
+                height: 300px;
+                width:300px;
+
+            }
+            to{
+                height: 500px;
+                width:500px;
+            }
+        }
+        .fade1 {
+            width: 100px;
+            height: 100px;
+            background-color: red;
+        }
+        .fade1.ng-enter{
+            animation: myAnimation1 2s ease forwards;
+        }
+        .demo{
+            width: 100px;
+            height: 100px;
+            background-color: red;
+        }
+        .demo-add{
+            transition: all 2s;
+            width: 100px;
+        }
+        .demo-add-active{
+            width: 200px;
+            height: 100px;
+            background-color: rebeccapurple;
+        }
+
+    </style>
+</head>
+<body ng-controller="myController">
+
+    <div id="myDiv" class="fade">
+
+    </div>
+
+    <!--给setClass使用的-->
+    <!--<div id="myDiv" class="fade">-->
+
+    <!--</div>-->
+    <!--<div id="myDiv" style="width: 200px;height: 200px;background-color: rebeccapurple">-->
+
+    <!--</div>-->
+
+
+
+</body>
+<script src="../lib/angular.js"></script>
+<script src="../lib/angular-animate.js"></script>
+<script>
+    /*
+     * addClass()方法带三个参数，element(正在建立动画的元素)、className(正在建立动画并且添加到元素上的css类)、配置项对象类型  其内有四个参数 addClass字符串类型 removeClass字符串类型 from to为对象类型
+     *
+     * removeClass()方法带三个参数，element(正在建立动画的元素)、className(正在建立动画并且从元素上移除的CSS类)、配置项对象类型  其内有四个参数 addClass字符串类型 removeClass字符串类型 from to为对象类型
+     *
+     * enter()方法带四个参数，element(正在建立动画的元素)、parent(这个元素的父元素，它是我们enter动画的焦点)、after（这个元素的兄弟元素，它将成为enter动画的焦点）、配置项对象类型  其内有四个参数 addClass字符串类型 removeClass字符串类型 from to为对象类型
+     *
+     * leave()方法带两个参数，element(正在建立动画的元素)、配置项对象类型  其内有四个参数 addClass字符串类型 removeClass字符串类型 from to为对象类型
+     *
+     * move()方法带四个参数，element(正在建立动画的元素)、parent(这个元素的父元素，它是我们enter动画的焦点)、after（这个元素的兄弟元素，它将成为enter动画的焦点）、配置项对象类型  其内有四个参数 addClass字符串类型 removeClass字符串类型 from to为对象类型
+     *
+     * $animate事件经历步骤：
+     1.enter和move会有元素被插入父元素或者移动元素，或者after元素后面，其他无此步骤
+     2.运行所有在元素上原生动画效果
+     3.$animate检查CSS样式寻找过渡/动画的持续事件和延迟属性
+     4.angularjs动画特殊参数被添加到类
+     5.$animate用定义过的次序事件等待完成
+     6.动画结束，$animate移除angularjs动画的特殊类参数
+     7.addClass或removeClass的会添加或删除类  leave会移除元素 其他无此步骤
+     * */
+    angular.module('myApp',['ngAnimate']).controller('myController',['$scope','$animate',function ($scope,$animate) {
+        $scope.test = true;
+        //获取到元素 并且用angular处理成jqlite元素
+        var myDiv = angular.element(document.getElementById('myDiv'));
+
+        //监听动画的事件第一个参数为激活动画的事件名称,第二个为元素,第三个为监听的回调
+        //回调里有两个参数 一个为元素 一个为状态
+        //注:重复调用会重复监听!
+        $animate.on('enter',myDiv,function (element,phase) {
+            console.log(element,phase);
+        });
+        myDiv.on('mouseenter',function () {
+            //需要传播
+            $scope.$apply(function () {
+
+                //直接使用enter方法激活动画
+                //
+//                $animate.enter(myDiv,myDiv.parent(),myDiv.after('<div>d</div>'),{addClass:'fade1',removeClass:'fade',from:{opacity:1},to:{opacity:0}});
+//                $animate.addClass(myDiv,'demo');
+                //取消动画的方法
+                //var sid = $animate.enter(myDiv,myDiv.parent());
+                //setTimeout(function () {
+                //$animate.cancel(sid);
+                //},1000);
+                //设置动画是否能被启用  false不能被使用 true能被使用  元素加true等同理
+                //$animate.enabled(false);
+
+                //取消监听的方法  只传enter等代表取消$animate所有的enter监听,传两个代表取消该元素的enter
+                //$animate.off('enter',myDiv);
+
+                //setClass四个参数(element, add, remove, [options]);
+//                $animate.setClass(myDiv,'demo','fade');
+
+//
+
+                //如果设置的为定义的demo1(指的是.animation定义的)那么会直接把from 和to给demo1 如果 为没定义的demo2那么就从初始状态到to的结束状态 所以如果是没有定义的建议from写的和初始一致
+//                $animate.animate(myDiv, {width:'0',transition: '2s'}, {width:'200px',height:'2000px','background-color':'red'},'demo1');
+            });
+
+        });
+    }]).animation('.demo1', function() {
+        return {
+            animate : function(element, from, to, done, options) {
+                //animation
+                console.log(element,from,to);
+                done();
+            }
+        }
+    });
+</script>
+</html>

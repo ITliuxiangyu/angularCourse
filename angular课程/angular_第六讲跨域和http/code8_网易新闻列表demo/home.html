@@ -1,0 +1,11 @@
+<div class="topHead">
+    <h3 class="headTitle">网易</h3>
+</div>
+<p class="placeholderP"></p>
+<div class="listDiv" ng-repeat="news in mine.newsListArray | orderBy:news.priority" ng-click="mine.goToDetailView($index)">
+    <img ng-src="{{news.imgsrc}}" class="leftImg">
+    <div class="spanDiv">
+        <span>{{news.title}}</span>
+        <span class="sourceSpan">{{news.source}}</span>
+    </div>
+</div>

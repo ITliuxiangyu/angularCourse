@@ -1,0 +1,54 @@
+
+.topHead{
+    background-color: red;
+    height: 69px;
+    width: 100%;
+    z-index: 1;
+    position: fixed;
+    top:0;
+    left: 0;
+    right: 0;
+}
+.headTitle{
+    margin-top: 23px;
+    color: white;
+    text-align: center;
+}
+.placeholderP{
+    height: 49px;
+}
+.listDiv{
+    border-bottom: 1px double #eeeeee;
+    display: flex;
+    flex-direction: row;
+    height: 110px;
+}
+.leftImg{
+    width: 100px;
+    height: 100px;
+    padding: 3px 3px 3px 3px;
+    border-radius: 5px;
+}
+.spanDiv{
+    width: 70%;
+    margin: 5px;
+    position: relative;
+}
+.sourceSpan{
+    position: absolute;
+    right: 10px;
+    bottom: 10px;
+    font-size: .8em;
+    color: #adadad;
+}
+.summaryBackBtn::before{
+    content: '<';
+}
+.summaryBackBtn{
+    background-color: red;
+    margin-top: 15px;
+    color: white;
+    border: none;
+    font-size: 1.2em;
+
+}

@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="myApp">
+<head>
+    <meta charset="UTF-8">
+    <title>指令</title>
+</head>
+<body ng-controller="myController">
+
+    <hello></hello>
+
+</body>
+</html>
+<script src="lib/angular.min.js"></script>
+<script>
+    angular.module('myApp',[]).controller('myController',['$scope',function ($scope) {
+
+
+
+    }]).directive('hello',[function () {
+        return {
+
+            restrict:'E',
+            //templateUrl:'templateTest.html',
+            /*
+            * 模版路径（字符串和函数）需要在服务器上
+             字符串则为模版路径
+             函数和template相同
+             异步的太多会拖慢速度可以缓存使用
+            * */
+            templateUrl:function (tElement,tAtts) {
+                return 'templateTest.html';
+            }
+        }
+
+    }]);
+</script>

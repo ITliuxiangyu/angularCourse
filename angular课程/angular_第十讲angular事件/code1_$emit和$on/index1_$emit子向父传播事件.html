@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="myApp">
+<head>
+    <meta charset="UTF-8">
+    <title>$emit</title>
+</head>
+<body>
+    <div ng-controller="parentController"><!--父controller-->
+
+        <div ng-controller="childController"><!--子controller-->
+            <button ng-click="emitSome()">往父传播</button>
+        </div>
+
+    </div>
+</body>
+</html>
+<script src="../lib/angular.js"></script>
+<script>
+    angular.module('myApp',[]).controller('parentController',['$scope',function ($scope) {
+        $scope.$on('hello',function (event,msg) {
+            /*
+            * event就是这个传播的事件
+            * msg就是$emit传播的消息,可以是任意类型的对象
+            * */
+            console.log(event);
+            console.log("收到子传来的信息---" + msg);
+            console.log("我是子作用域里的对象----" + event.targetScope.name);
+        })
+    }]).controller('childController',['$scope',function ($scope) {
+        $scope.name = '张三';
+        $scope.emitSome = function () {
+            $scope.$emit('hello','world');
+
+        };
+    }])
+</script>

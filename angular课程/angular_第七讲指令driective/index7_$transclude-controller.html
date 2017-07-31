@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<title></title>
+</head>
+<body>
+	<!--<div ng-controller="myController">-->
+		<!--<hello>-->
+            <!--<button>baidu</button>-->
+        <!--</hello>-->
+        <!--<div hello>-->
+            <!--<button>d</button>-->
+        <!--</div>-->
+        <button id="b">1</button>
+        <div id="a" style="background-color: red;height: 200px">
+d
+        </div>
+	<!--</div>-->
+</body>
+    <script src="lib/jquery.min.js"></script>
+	<script src="angular.min.js" type="text/javascript" charset="utf-8"></script>
+	<script>
+
+        $("#a").append($("#b"));
+
+		angular.module('app', [])
+		.controller('myController', ['$scope', function($scope){
+			$scope.name = '111';
+            $scope.doSome = function () {
+                var a = angular.element('<div id="a">');
+                var b = angular.element('<button id="b">');
+                console.log(a);
+                for(var i = 0;i < 10;i++){
+                    a.append("<button>s</button>");
+
+                }
+            };
+
+		}])
+		.directive('hello', ['$document', function(){
+			// Runs during compile
+			return {
+				/*
+				*
+				 $transclude 用于连接函数 一般用于定义一些可复用的行为
+				                                       bmnvv
+				 注：模版用必须有ng-transclude 参数transclude必须开启 clone指被jquery包装过的元素本身   $transclude会默认创建一个作用域无法使用父作用域 如果要使用就用$scope.$parent.*来实现
+				* */
+				controller: function($scope, $element, $attrs, $transclude) {
+					$transclude(function (clone,$scope) {//这里的参数有两个clone和$scope
+                        console.log(clone);
+                        for (var i = 0;i < 10;i++){
+//                            $element.append(clone[0].outerHTML);
+                            $element.append(clone.clone());
+
+                        }
+
+                        //console.log($scope.$parent);
+//			            var a = angular.element('<a>');
+//			            a.attr('href', 'http://www.baidu.com');
+//						//a.text($scope.$parent.name);
+//			            a.text(clone.text());
+//			            $element.append(a);
+			        });
+				},
+				restrict: 'EA', // E = Element, A = Attribute, C = Class, M = Comment
+//				template: "<div ng-transclude></div>",
+				transclude: true,
+				link: function($scope, iElm, iAttrs, controller) {
+//					console.log(controller);
+				}
+			};
+		}]);
+	</script>
+</html>

@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="myApp">
+<head>
+    <meta charset="UTF-8">
+    <title>jQuery写angular动画</title>
+</head>
+<body ng-controller="myController">
+
+    <div ng-repeat="num in numArray" class="className">
+        我是{{num}}
+    </div>
+
+</body>
+<script src="../lib/jquery.js"></script>
+<script src="../lib/angular.js"></script>
+<script src="../lib/angular-animate.js"></script>
+<script>
+    angular.module('myApp',['ngAnimate']).controller('myController',['$scope','$timeout','$interval',function ($scope,$timeout,$interval) {
+        $scope.numArray = [];
+        var i = 0;
+        var interval = $interval(function () {
+            $scope.numArray.push(i);
+            i++;
+            if(i > 8){
+                $interval.cancel(interval);
+            }
+        },1000);
+    }])
+    .animation('.className',[function () {
+        var myClass = {
+            position: "relative",
+            left: document.body.clientWidth + 'px'
+        };
+
+        return {
+            enter:function (element,done) {
+                element.css(myClass).animate({
+                    top: 0,
+                    left: 0
+                }, 450,function () {
+                    myClass = {
+                        position: "relative",
+                        left: document.body.clientWidth + 'px'
+                    };
+                    done();
+
+                });
+                return function(isCancelled) {
+
+                    console.log('sss')
+
+                };
+
+
+            },
+            leave:function (element,done) {
+                //
+            }
+        }
+    }]);
+</script>
+</html>

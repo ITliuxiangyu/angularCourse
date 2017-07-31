@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="myApp">
+<head>
+    <meta charset="UTF-8">
+    <title>指令</title>
+</head>
+<body ng-controller="myController">
+
+    <!--<div my-repeat="num in numArray" test="{{numArray}}">-->
+        <!--<button>{{num}}</button>-->
+    <!--</div>-->
+    <my-div test="{{numArray}}"></my-div>
+</body>
+</html>
+<script src="lib/angular.min.js"></script>
+<script>
+    angular.module('myApp',[]).controller('myController',['$scope',function ($scope) {
+
+        $scope.numArray = [{name:'1'},{name:'2'}];
+        $scope.imgSrc = 'http://sdsadadad';
+
+    }]).directive('myRepeat',[function () {
+        return {
+            restrict:'A',
+            transclude:true,
+            controller:function ($scope,$element,$attrs,$transclude) {
+                $transclude(function (clone,scope) {
+                    var repeatSource = $attrs.myRepeat.split('in')[1];
+                    repeatSource = repeatSource.replace(/(^\s*)|(\s*$)/g,'');
+                    var variable = "{{" + $attrs.myRepeat.split('in')[0].replace(/(^\s*)|(\s*$)/g,'') + "}}";
+                    var array = $scope[repeatSource];
+                    console.log(clone);
+                    var htmlStr = '';
+                    var myClone = '';
+                    if (clone.length){
+                        for (var j = 0;j < clone.length;j++){
+                            if (clone[j].nodeName != "#text"){
+                                myClone = clone[j];
+                            }
+                        }
+                    }
+                    var childE = myClone.outerHTML;
+                    for (var i in array){
+                        var newChildE = childE.replace(variable,array[i]);
+                        htmlStr += newChildE;
+                    }
+                    $element[0].innerHTML = htmlStr;
+                });
+
+            },
+            link:function (scope,tElement,tAtts){
+                console.log(tAtts.test);
+//                var repeatSource = tAtts.myRepeat.split('in')[1];
+//                repeatSource = repeatSource.replace(/(^\s*)|(\s*$)/g,'');
+////                scope.$watch(repeatSource,function (a,b) {
+////                    console.log(a,b);
+////                });
+//                var variable = "{{" + tAtts.myRepeat.split('in')[0].replace(/(^\s*)|(\s*$)/g,'') + "}}";
+//                var array = scope[repeatSource];
+//                var childE = tElement[0].innerHTML;
+//                var htmlStr = '';
+//                for (var i in array){
+//                    var newChildE = childE.replace(variable,array[i]);
+//                    htmlStr += newChildE;
+//                }
+//                tElement[0].innerHTML = htmlStr;
+            }
+
+        }
+
+    }]).directive('myDiv',[function () {
+        return {
+            restrict:'EA',
+            template:'<div></div>',
+            link:function (scope,tElement,tAtts) {
+                console.log(JSON.parse(tAtts.test).length);
+                var a = JSON.parse(tAtts.test);
+                var btn = '';
+                for (var i = 0;i < a.length;i++){
+                    btn += '<button>' + i +'</button>';
+                    console.log(btn);
+                    tElement.html(btn);
+                }
+            }
+        }
+    }]);
+</script>

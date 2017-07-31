@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<title></title>
+</head>
+<body ng-app="app">
+	<div ng-controller="myController">
+		<hi hello ng-model="name"></hi><!--这里必须绑定ng-model-->
+	</div>
+
+</body>
+	<script src="angular.min.js" type="text/javascript" charset="utf-8"></script>
+	<script>
+		/**
+		*  Module
+		*
+		* Description
+		*/
+		angular.module('app', [])
+		.controller('myController', ['$scope', function($scope){
+			$scope.name = 'zzz';
+		}])
+		.directive('hi', ['$document', function(){
+			// Runs during compile
+			return {
+				// name: '',
+				// priority: 1,
+				// terminal: true,
+				// scope: {}, // {} = isolate, true = child, false/undefined = no change
+				// controller: function($scope, $element, $attrs, $transclude) {
+				// 	$scope.name1 = '222';
+				// 	this.go = function () {
+				// 		console.log("111");
+				// 	}
+				// },
+				// require: 'ngModel', // Array = multiple requires, ? = optional, ^ = check parent elements
+				restrict: 'E', // E = Element, A = Attribute, C = Class, M = Comment
+				template: '<div>hello angular!</div>',
+				// templateUrl: '',
+				// replace: true,
+				// transclude: true,
+				// compile: function(tElement, tAttrs, function transclude(function(scope, cloneLinkingFn){ return function linking(scope, elm, attrs){}})),
+				link: function($scope, iElm, iAttrs, controller) {
+					
+				}
+			};
+		}])
+		.directive('hello', ['$document', function(){
+			// Runs during compile
+			return {
+				// name: '',
+				// priority: 1,
+				// terminal: true,
+				// scope: {}, // {} = isolate, true = child, false/undefined = no change
+				// controller: function($scope, $element, $attrs, $transclude) {},
+				require: '?ngModel', // Array = multiple requires, ? = optional, ^ = check parent elements
+				restrict: 'A', // E = Element, A = Attribute, C = Class, M = Comment
+				// template: '',
+				// templateUrl: '',
+				// replace: true,
+				// transclude: true,
+				// compile: function(tElement, tAttrs, function transclude(function(scope, cloneLinkingFn){ return function linking(scope, elm, attrs){}})),
+				link: function($scope, iElm, iAttrs, ngModel) {
+					if(!ngModel)return;
+					console.log(ngModel);
+				}
+			};
+		}]);
+	</script>
+	<!-- 1.
+
+$viewValue为视图值，即显示在视图（页面）的实际值（就是上面例子中input输入框的值）
+
+$modelValue为模型值，即赋给ng-model的值（与控制器绑定的值）
+
+两者不一定相等，因为$viewValue同步到$modelValue要经过一系列的操作（经过三个管道）。
+
+虽然大多数情况下两者是相等的（例如上面的例子）
+
+2.
+
+$parsers为一个执行它里面每一个元素（每一个元素都是一个函数）的数组，
+
+主要是用来做验证和转换值的过程，
+
+ngModel从DOM读取的值会被传入到其中的函数
+
+它会依次执行每一个函数，把每一个函数执行的结果传个下一个函数，
+
+而最后一个函数执行的值将会传到model中，
+
+我们可以将函数push进去，那样它就会执行。
+
+3.
+
+$formatters也是一个执行它里面每一个元素（每一个元素都是一个函数）的数组，
+
+主要用来对值进行格式化和转换，以便在绑定了这个值的控件中显示。
+
+当数据的模型值发生变化的时候，里面的函数会被一一执行，
+
+同样我们就可以将函数push进去，让它执行
+
+4.
+
+$viewChangeListeners的值也是一个由函数组成的数组
+
+当视图的值发生变化的时候里面的函数会被一一调用，
+
+实现跟$watch类似的功能。
+
+5.
+
+$render函数负责将模型值同步到视图上， 如果模型值被改变,需要同步视图的值。
+
+6.
+
+$setViewValue用于设置视图值(上面的例子就是将input的value值赋值给$viewValue)
+
+7.
+
+$error 一个包含所有error的对象
+
+8.
+
+$setPristine 设置为原始状态，会添加ng-pristine的class类名，移除ng-dirty的class类名
+
+9.
+
+$setValidity 来设置错误的标志
+
+为一个函数，接受两个参数，第一个参数为错误标志的名字，是字符串类型，将会被设置成$error的属性
+
+第二个参数为布朗值，为这个错误标志的值。
+10.
+
+$name 的值为input的name属性的值
+11.
+
+$$validityState（暂时不清楚用法，求解答~）
+
+12.
+
+$isEmpty( value ) 函数，判断是否为空
+
+当我们需要判断input的value值是否为空的时候,可以使用这个方法
+
+其实可以就当它是个判断是否为空的方法,传入一个参数,判断这个参数是否为空,你传入任何值都可以
+
+要是需要，我们也可以自己在指令里重写这个方法，来定义我们自己需要的“是否为空”的概念
+
+13.
+
+$pristine 如果用户还没有进行过交互,值是true.
+
+$drity 如果用户已经进行过交互，值是true.
+
+14.
+
+$valid 如果没有错误，值是true.
+
+$invalid 如果有错误，值是true.-->
+</html>

@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="myApp">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body ng-controller="myController">
+
+    <div ng-repeat="num in numArray | orderBy:'+':true track by $index">
+        <button ng-click="consoleSum($middle)">{{num}}</button>
+    </div>
+
+</body>
+<script src="js/angular.js"></script>
+<script>
+    /*
+    * ng-repeat:在循环的时候可以用过滤,这样能大大节省代码量,高效率开发
+    * 当数据出现重复并且同时使用过滤 track by $index 要放在过滤之后
+    * orderBy:'+' +代表从小到大排序,-代表从大到小,第二个参数代表是否逆向排序,ture代表是要逆向排序,false代表不进行逆向排序
+    *
+    * ng-repeat:默认有四个参数,$index(常用)代表循环索引从0开始,$first代表第一个,$last代表最后一个,$middle代表非第一个和最后一个的所有
+    * */
+    angular.module('myApp',[]).controller('myController',['$scope',function ($scope) {
+        $scope.numArray = [1,23,4,32,512,51,4];
+        $scope.consoleSum = function (index) {
+            console.log('走了第' + index + "个!");
+        }
+    }])
+</script>
+</html>

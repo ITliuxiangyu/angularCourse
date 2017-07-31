@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="myApp">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style>
+        .fade {
+            width: 100px;
+            height: 100px;
+            background-color: red;
+            transition: 4s;
+        }
+        .fade.ng-enter{
+            width: 0;
+            height: 0;
+        }
+        .fade.ng-enter.ng-enter-active{
+            width: 300px;
+            height: 300px;
+        }
+        .fade.ng-move{
+            width: 0;
+            height: 0;
+        }
+        .fade.ng-move.ng-move-active{
+            width: 300px;
+            height: 300px;
+        }
+        .fade.ng-leave{
+            width: 0;
+            height: 0;
+        }
+        .fade.ng-leave.ng-leave-active{
+            width: 300px;
+            height: 300px;
+        }
+        .fade.grown-add{
+            width: 0;
+            height: 0;
+        }
+        .fade.grown-add.grown-add-active{
+            width: 200px;
+            height: 200px;
+        }
+        .fade.grown-remove{
+            width: 200px;
+            height: 200px;
+        }
+        .fade.grown-remove.grown-remove-active{
+            width: 0;
+            height: 0;
+        }
+        @keyframes myAnimation {
+            form{
+                background-color: red;
+            }
+            to{
+                background-color: black;
+                height: 200px;
+            }
+        }
+        @-webkit-keyframes myAnimation {
+            form{
+                background-color: red;
+            }
+            to{
+                background-color: black;
+            }
+        }
+        /*原生方式*/
+        .animateCss{
+        width: 100px;
+        height: 100px;
+        background-color: red;
+        animation: myAnimation 3s;
+        -webkit-animation: myAnimation 3s;
+        }
+    </style>
+</head>
+<body ng-controller="myController">
+
+    <my-div></my-div>
+    <!--<div id="myDiv" class="fade">2222</div>-->
+
+</body>
+<script src="../lib/angular.js"></script>
+<script src="../lib/angular-animate.js"></script>
+<script>
+
+    angular.module('myApp',['ngAnimate']).controller('myController',['$scope','$animate',function ($scope,$animate) {
+
+    }]).directive('myDiv',['$animate','$timeout',function ($animate,$timeout) {
+        return {
+            restrict:'E',
+            replace:'true',
+            template:"<div class='fade'><div id='myDiv'>2</div></div>",
+            link:function (scope,ele,atts) {
+
+                $timeout(function () {
+//                    $animate.addClass(ele,'grown');//addClass事件
+                    var sid = $animate.enter(ele,ele.parent());
+                    setTimeout(function () {
+                        $animate.cancel(sid);
+                    },2000);
+//                    $animate.leave(ele);
+//                    $animate.move(ele,ele.parent());
+                });
+                ele.on('click',function () {
+                    scope.$apply(function () {
+                        $animate.removeClass(ele,'grown');
+                    });
+                });
+            }
+        }
+    }])
+</script>
+</html>

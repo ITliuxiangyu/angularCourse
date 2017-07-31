@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="myApp">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link type="text/css" rel="stylesheet" href="css/myCss.css">
+</head>
+<body ng-controller="myController">
+    <div ng-style="myStyle"></div>
+    <div ng-class="myDiv"></div>
+    <button ng-click="change()">改变样式</button>
+</body>
+<script src="js/angular.js"></script>
+<script>
+    /*
+    * ng-style:可以以变量或对象的形式用双向数据绑定进行操作,动态改变样式
+    * ng-class:和ng-style不用在于不能直接以对象的形式赋予变量进行绑定
+    * 必须以写好class的方式,给变量赋值才行
+    * */
+    angular.module('myApp',[]).controller('myController',['$scope',function ($scope) {
+        $scope.myStyle = {
+            'background-color':'aqua',
+            'width':'200px',
+            'height':'200px'
+        };
+        $scope.myDiv = 'myDiv';
+        $scope.change = function () {
+            $scope.myStyle = {
+                'background-color':'red',
+                'width':'200px',
+                'height':'200px',
+                'border-radius':'50px'
+            }
+        }
+    }]);
+</script>
+</html>

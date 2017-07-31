@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="myApp">
+<head>
+    <meta charset="UTF-8">
+    <title>$includeContentLoaded事件</title>
+    <style>
+        .demo{
+            background-color: cornflowerblue;
+            height: 100px;
+        }
+        .demo.ng-enter{
+            opacity: 0;
+            height: 0;
+            transition: 2s;
+        }
+        .demo.ng-enter.ng-enter-active{
+            height: 100px;
+            opacity:1;
+        }
+    </style>
+</head>
+<body ng-controller="myController">
+    <div id="demo" ng-include="myHtml"></div>
+    <button ng-click="changeMyHtml()">改变include</button>
+</body>
+</html>
+<script src="../lib/angular.js"></script>
+<script src="../lib/angular-animate.js"></script>
+<script>
+    angular.module('myApp',['ngAnimate']).controller('myController',['$scope','$animate',function ($scope,$animate) {
+        $scope.myHtml = '';
+        $scope.changeMyHtml = function () {
+            $scope.myHtml = 'test.html';
+        };
+        /*$includeContentLoaded事件:当ngInclude的内容重新加载时，从include指令上触发*/
+        $scope.$on('$includeContentLoaded',function (evt,msg) {
+            //这里msg收到的消息就是include更换的内容
+            console.log("我是$includeContentLoaded事件======" + msg);
+            //该事件是ngInclude内容重新加载完毕
+            var demo = document.getElementById('demo');
+            $animate.addClass(demo,'demo');
+        });
+        /*事件从调用ngInclude的作用域上发送，每次ngInclude内容被请求时，它都会被发送*/
+        $scope.$on('$includeContentRequested',function (evt,msg) {
+            //这时ngInclude内容更换只是被请求,并没有完成更换 我们这时候是给动画是不能生效的
+            console.log("我是$includeContentRequested事件----" + msg);
+            //下面的运行会报错
+//            var demo = document.getElementById('demo');
+//            $animate.addClass(demo,'demo');
+        })
+    }])
+</script>

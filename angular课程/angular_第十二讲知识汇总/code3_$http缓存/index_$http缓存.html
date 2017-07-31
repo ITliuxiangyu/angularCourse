@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="myApp">
+<head>
+    <meta charset="UTF-8">
+    <title>$http缓存</title>
+</head>
+<body>
+
+    <div ng-controller="myController">
+
+    </div>
+
+</body>
+</html>
+<script src="../lib/angular.js"></script>
+<script>
+    angular.module('myApp',[]).config([function () {
+
+    }]).controller('myController',['$scope','$cacheFactory','$http',function ($scope,$cacheFactory,$http) {
+        //这里我们设置了$http缓存属性为true,在我们请求的时候$cacheFactory就帮助我们建立了一个$http的缓存对象
+        var myUrl = 'http://c.m.163.com/nc/article/headline/T1348647853363/0-10.html';
+        var url = 'http://localhost:3000/?myUrl=' + myUrl  + '&callback=JSON_CALLBACK';
+        //网络请求和本地的请求都是可以被缓存的
+        $http({method:'get',url:'wy.json',cache:true})
+        .then(function successCallBack(result) {
+            console.log(result.data);
+            //缓存是请求完成后才被缓存下来的 所以我们在这里打印
+            var httpCache = $cacheFactory.get('$http');
+            //$http请求的url就是缓存对象get()方法里传入的key
+            console.log(httpCache.get('wy.json'));
+
+        },function errorCallBack(error) {
+
+        });
+
+    }]);
+</script>

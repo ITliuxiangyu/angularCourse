@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="myApp">
+<head>
+    <meta charset="UTF-8">
+    <title>过渡交错动画</title>
+    <style>
+        .item{
+            height: 50px;
+            margin-top: 2px;
+            background-color: #835A99;
+        }
+        /*动画开始前*/
+        .item.ng-enter{
+            opacity:0;
+            margin-top: 2px;
+            transition: 2s all linear;
+            -webkit-transition: 2s linear all;
+            -o-transition: 2s linear all;
+            animation-fill-mode:forwards;
+        }
+        /*动画过程*/
+        .item.ng-enter-active{
+            height: 50px;
+            opacity:1;
+            background-color: #835A99;
+        }
+        /*不同时出现*/
+        .item.ng-enter-stagger {
+            transition-delay:300ms;
+            -webkit-transition-delay: 300ms;
+            /*防止意外CSS继承的保护措施,要是没有这种保护交错特效就会被忽略*/
+            transition-duration:0ms;
+            -moz-animation-duration: 0ms;
+        }
+
+    </style>
+</head>
+<body ng-controller="myController">
+    <div class="item" ng-repeat="name in wyArray">
+        {{name.title}}
+    </div>
+</body>
+<script src="../lib/angular.js"></script>
+<script src="../lib/angular-animate.js"></script>
+<script>
+    angular.module('myApp',['ngAnimate']).controller('myController',['$scope','$timeout','$http',function ($scope,$timeout,$http) {
+//        $timeout(function () {
+//            $scope.mine = {
+//                nameArray :['张三','李四','王二','大傻','麻子']
+//            }
+//        },1);
+        $http.get('wy.json').success(function (result) {
+            console.log(result);
+            $scope.wyArray = result.T1348647853363;
+        })
+
+    }])
+</script>
+</html>

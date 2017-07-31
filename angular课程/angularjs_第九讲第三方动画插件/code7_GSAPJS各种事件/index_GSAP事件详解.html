@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="myApp">
+<head>
+    <meta charset="UTF-8">
+    <title>GSAPJS事件详解</title>
+    <style>
+        div{
+            width: 100px;
+            height: 100px;
+            background-color: red;
+        }
+    </style>
+</head>
+<body ng-controller="myController">
+
+    <div id="rect">我是demo</div>
+
+    <!--创建几个按键和一个显示用的标签-->
+    <input type="button" value="重新开始" ng-click="doSome('restart');" />
+    <input type="button" value="暂停" ng-click="doSome('pause');" />
+    <input type="button" value="继续" ng-click="doSome('resume');" />
+    <input type="button" value="反转" ng-click="doSome('reverse');" />
+    <h3>{{label}}</h3>
+</body>
+</html>
+<script src="../lib/angular.js"></script>
+<!--使用TweenLite必须要把和其配合的库也添加进去-->
+<script src="../lib/CSSPlugin.min.js"></script><!--CSS渲染库-->
+<script src="../lib/EasePack.min.js"></script><!--缓动效果库-->
+<script src="../lib/TweenLite.min.js"></script>
+<script>
+    angular.module('myApp',[]).controller('myController',['$scope',function ($scope) {
+        function changeLabel(pm){
+            $scope.$apply(function () {
+                $scope.label = pm;
+            });
+        }
+        var tw = TweenLite.to("#rect",3,{
+            x:"900px",
+            y:"400px",
+            ease:Back.easeOut,
+            onStart:changeLabel,onStartParams:["动画开始........"],
+            onUpdate:changeLabel,onUpdateParams:["动画进行ing........"],
+            onComplete:changeLabel,onCompleteParams:["动画结束啦........"],
+            onReverseComplete:changeLabel,
+            onReverseCompleteParams:["已经回到原点！"]
+        });
+        console.log(tw);
+        $scope.doSome = function (type) {
+            switch (type){
+                case 'restart':tw.restart();
+                    break;
+                case 'pause':tw.pause();
+                    break;
+                case 'resume':tw.resume();
+                    break;
+                case 'reverse':tw.reverse();
+                    break;
+            }
+        };
+    }]);
+</script>

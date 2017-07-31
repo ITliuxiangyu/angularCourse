@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="myApp">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body ng-controller="myController">
+    {{name | uppercase | lowercase}}
+    {{123.231232 | currency:'*'}}
+    {{today | date:'HH:mm:ss'}}
+</body>
+<script src="js/angular.js"></script>
+<script>
+    /*
+    * 过滤可以在{{}} 里 用 | 的形式进行过滤
+    * 也可以在controller里用$filter方法进行
+    * */
+    var app = angular.module('myApp',[]);
+    app.controller('myController',function ($scope,$filter) {
+        $scope.name = 'hello qingyun';
+        $scope.result = $filter('uppercase')($scope.name);
+        console.log($scope.result);
+
+        $scope.today = new  Date();
+//        alert($scope.today);
+    });
+
+</script>
+</html>

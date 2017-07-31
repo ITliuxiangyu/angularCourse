@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="app">
+<head>
+    <meta charset="UTF-8">
+    <title></title>
+    <script src="../lib/angular.js"></script>
+</head>
+<body ng-controller="myCtr">
+
+    <button ng-click="doSome()">点我</button>
+
+<script>
+
+    angular.module('app', []).controller('myCtr', function ($scope, $q, $timeout, $interval) {
+
+        $scope.doSome = function () {
+            var defer = $q.defer();
+            var promise = defer.promise;
+
+            var p = promise.then(function (val) {
+
+            },function (err) {
+                //如果我们想告诉接下来的链式操作这里出错想 下一个(只是下一个)也会出错可以使用
+                //$q.reject('原因!')会返回一个新的promise对象 包含错误信息
+                return $q.reject('原因!');
+            },function () {
+
+            }).then(function () {
+
+            },function (err) {
+                console.log(err);
+                return $q.reject('原因2!');
+
+            }).then(function () {
+
+            },function (err) {
+                console.log(err);
+            });
+
+            //也可以
+//            p.catch(function (err) {
+//                console.log(err);
+//            });
+
+
+
+            $timeout(function () {
+                defer.reject('出错了!');
+            }, 0);
+
+        }
+    })
+
+</script>
+</body>
+</html>

@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="myApp">
+<head>
+    <meta charset="UTF-8">
+    <title>js写angular动画</title>
+</head>
+<body ng-controller="myController">
+    <div ng-repeat="num in numArray" class="className">
+        我是{{num}}
+    </div>
+</body>
+<script src="../lib/angular.js"></script>
+<script src="../lib/angular-animate.js"></script>
+<script>
+    angular.module('myApp',['ngAnimate']).controller('myController',['$scope','$timeout','$interval',function ($scope,$timeout,$interval) {
+//        angular动画的原理是在DOM发生变更时自动给DOM添加类,添加ng-enter、ng-***-add、ng-***-active等类,然后由ng-***-active添加时触发动画,而动画的触发又是由DOM上的指令监控DOM的事件实现的,不同的指令具有不同的事件,比如ngView的就是其内部模板改变时触发,ng-if或ng-hide等是根据DOM显示或隐藏触发的等等,还有class、ng-repeat是根据所绑定的数据改变并改变DOM时触发
+        $scope.numArray = [];
+        var i = 0;
+        var interval = $interval(function () {
+            $scope.numArray.push(i);
+            i++;
+            if(i > 3){
+               $interval.cancel(interval);
+            }
+        },1000);
+    }]).animation('.className',[function () {
+        return {
+            enter:function (element,done) {
+                var op = 0,timeout,animateFn = function () {
+                    op += 10;
+                    element.css('opacity',op/100);
+                    if(op >= 100){
+                        clearInterval(timeout);
+                        done();
+                    }
+                };
+                element.css('opacity',0);
+                timeout = setInterval(animateFn,100);
+                return function() {
+                    console.log('sss');
+
+
+                };
+            },
+            leave:function (element,done) {
+                var op = 100,timeout,animateFn = function () {
+                    op -= 10;
+                    element.css('opacity',op/100);
+                    if(op < 0){
+                        clearInterval(timeout);
+                        done();
+                    }
+                };
+                element.css('opacity',100);
+                timeout = setInterval(animateFn,100);
+            }
+        }
+    }]);
+</script>
+</html>

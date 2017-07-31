@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+    <button onclick="getData()">获取数据</button>
+</body>
+<script src="../lib/jquery.min.js"></script>
+<script>
+    function getData() {
+        var myUrl = 'http://c.m.163.com/nc/article/headline/T1348647853363/0-10.html';
+        var url = 'http://localhost:3000/?myUrl=' + myUrl;
+        $.ajax({
+            url:url,
+            type:'get',
+            dataType:'jsonp',
+            success:function (result) {
+                console.log(JSON.parse(result));
+            },
+            error:function (e) {
+                
+            }
+        })
+    }
+</script>
+</html>

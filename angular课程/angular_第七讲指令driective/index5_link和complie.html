@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="myApp">
+<head>
+    <meta charset="UTF-8">
+    <title>指令</title>
+</head>
+<body ng-controller="myController">
+
+    <demo></demo>
+
+
+</body>
+</html>
+<script src="lib/angular.min.js"></script>
+<script>
+    angular.module('myApp',[]).controller('myController',['$scope',function ($scope) {
+
+        $scope.demoVal = '2';
+        var mySet = new Set();
+        console.log(mySet);
+
+    }]).directive('demo',[function () {
+        return {
+            restrict:'E',
+            template:"<input placeholder='请输入!' ng-model='demoVal'>",
+            /*
+            * link函数
+             链接函数负责把作用域和DOM进行链接，如果有controller或者require引用的有controller就会有四个参数，否则是三个，分别为scope, iElm, iAttrs, controller
+            * */
+            replace:true,
+            controller:function () {
+
+            },
+            compile:function(tElement, tAttrs, transclude){
+                console.log('开始');
+                return function linking(scope, elm, attrs){
+                    console.log('结束，$scope注入成功！');
+                }},
+            link:function (scope,iElm,iAttrs,controller) {
+                scope.$watch('demoVal',function () {
+                    console.log('wwww');
+                })
+            }
+        }
+
+    }]);
+</script>

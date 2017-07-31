@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="myApp">
+<head>
+    <meta charset="UTF-8">
+    <title>缓存简介</title>
+</head>
+<body ng-controller="myController">
+
+</body>
+</html>
+<script src="../lib/angular.js"></script>
+<script>
+    /*
+    * $cacheFactory服务,即angular中的缓存服务,为我们提供了一些数据缓存的功能,不仅能当做随app存在的数据库,而且$cacheFactory在app内部帮助我们建立了一些内置的缓存来帮助我们提升性能,angular所有的缓存都是有$cacheFactory提供的
+    * 缓存的用处:
+    * 优点:它可以透明的储存数据,以便未来更快的服务于请求,缓存不需要时常重新计算数据是否安全,因为我们在缓存之初就已经确定,这样避免了重复数据的重复请求
+    * 缓存能够服务的请求越多,整体性能提升就越明显
+    * 节约流量,提升界面性能,提高用户体验
+    * 缺点:不能过度依赖缓存,需要作出抉择,以防错过最新数据,所以我们应该选择性的去使用缓存
+    * 使用场景:1、在我们的angular单页面应用中有很多个子组件页面,我们使用when函数去加载的时候是进入哪个页面解析哪个页面的,虽然感觉不到延迟,但是我们不能断网后使用,但是我们把组件异步缓下了,即使我们断网仍然能进入到组件页面(ionic中有帮助我们设置缓存页面的功能,不用自己写)
+    * 2、在一个app中有些数据是一天或者几天变动一次,比如移动的一些消费或者通话记录都是第二天才能查看,当用户一直点击查看前一天的信息的时候我们就可以把数据缓存下载给用户(有时候我们缓存了数据也要做出请求了一段时间的假象或者我们发送其他的请求来判断是否使用缓存等等)
+    *
+    * */
+    angular.module('myApp',[]).config([function () {
+
+    }]).controller('myController',['$scope','$cacheFactory',function ($scope,$cacheFactory) {
+        //创建一个$cacheFactory对象
+        var cache = $cacheFactory('cacheId');//这里的cacheId代表就是缓存的id或者叫做名字
+        //$cacheFactory接收两个参数,1.是字符串表示创建缓存时的id名称 2.capacity对象为数字,这个参数指定缓存如何表现,这个容量决定了缓存键值对的最大数量
+        //如: var cache1 = $cacheFactory('cacheId',{capacity:20})//表示最大能承载20条键值对
+        //我们可以使用get()方法来获取创建的缓存对象
+        var myCache = $cacheFactory.get('cacheId');
+
+    }]);
+</script>

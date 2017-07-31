@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="myApp">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style>
+        @keyframes myAnimation {
+            form{
+                background-color: red;
+            }
+            to{
+                background-color: black;
+                height: 200px;
+            }
+        }
+        @-webkit-keyframes myAnimation {
+            form{
+                background-color: red;
+            }
+            to{
+                background-color: black;
+            }
+        }
+        /*原生方式*/
+        /*.fade{*/
+            /*width: 100px;*/
+            /*height: 100px;*/
+            /*background-color: red;*/
+            /*animation: myAnimation 3s;*/
+            /*-webkit-animation: myAnimation 3s;*/
+        /*}*/
+        /*
+        * 这里我们发现原生的关键帧动画可以自动触发,而angular的不会
+        * 这是因为angular动画的原理是在DOM发生变更时自动给DOM添加类,添加ng-enter、ng-***-add、ng-***-active等类,然后由ng-***-active添加时触发动画,而动画的触发又是由DOM上的指令监控DOM的事件实现的,不同的指令具有不同的事件,比如ngView的就是其内部模板改变时触发,ng-if或ng-hide等是根据DOM显示或隐藏触发的等等,还有class、ng-repeat是根据所绑定的数据改变并改变DOM时触发
+        * */
+        /*angularjs方式*/
+        .fade.ng-enter{
+            width: 100px;
+            height: 100px;
+            background-color: red;
+            animation: myAnimation 3s linear 3 forwards;
+            -webkit-animation:myAnimation 3s linear 3 forwards;
+        }
+    </style>
+</head>
+    <body ng-controller="myController">
+    <!--这里我们用的ng-if的触发动画的条件就是ng-if的内容变更了DOM被插入到DOM树时触发,或者ng-if内容被移除前触发-->
+        <div ng-if="isShowDiv" class="fade">我是angular方式</div>
+        <button ng-click="isShowDiv=true">点击</button>
+        <button ng-click="isShowDiv=false">隐藏</button>
+    </body>
+<script src="../lib/angular.js"></script>
+<script src="../lib/angular-animate.js"></script>
+<script>
+    angular.module('myApp',['ngAnimate']).controller('myController',['$scope',function ($scope) {
+
+    }]);
+</script>
+</html>

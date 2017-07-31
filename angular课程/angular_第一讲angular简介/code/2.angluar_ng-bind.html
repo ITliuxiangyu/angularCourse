@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="myApp">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<br>
+    <div ng-init="name='张三'"></div>
+    <span ng-bind="name"></span>
+    <br><br>
+    <div ng-init="num='10'">
+        {{num==10}}
+    </div>
+</body>
+<script src="//cdn.bootcss.com/angular.js/1.5.8/angular.min.js"></script>
+<script>
+    /*
+    * ng-bind:给元素绑定一个angular变量,ng-bind是在DOM加载完成后angular分析完毕后把变量赋予元素,{{}}是在元素没有编译完成就加载了
+    *
+    * {{}}内可以写表达式,表达式可以是任何计算或者判断的语句,比如 > < == = + - * && || ! % () ?:
+    * */
+    var app = angular.module('myApp',[]);
+</script>
+</html>

@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="myApp">
+<head>
+    <meta charset="UTF-8">
+    <title>angular_controllers</title>
+</head>
+<body>
+    <div ng-controller="myController">
+        <!--<input placeholder="请输入" ng-model="name">-->
+        <button ng-click="doSomething()">第一个按钮</button>
+        <!--{{name}}-->
+        <div ng-controller="otherController">
+            <button ng-click="doSomething()">第二个按钮</button>
+            <!--<input placeholder="请输入" ng-model="name">-->
+            <!--{{name}}-->
+        </div>
+    </div>
+
+</body>
+<script src="//cdn.bootcss.com/angular.js/1.5.8/angular.min.js"></script>
+<script>
+    var app = angular.module('myApp',[]);
+    app.controller('myController',function ($scope) {
+        $scope.name = '张三';
+        $scope.doSomething = function () {
+            console.log($scope.name);
+//            alert('点击了');
+        };
+    });
+    app.controller('otherController',function ($scope) {
+        $scope.name = '李四';
+        console.log($scope.name);
+    });
+</script>
+</html>

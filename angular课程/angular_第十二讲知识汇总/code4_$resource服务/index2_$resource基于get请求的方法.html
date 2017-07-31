@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="myApp">
+<head>
+    <meta charset="UTF-8">
+    <title>基于get请求的方法</title>
+</head>
+<body ng-controller="myController">
+
+    <div ng-repeat="new in data.T1348647853363">
+        <h3>{{new.title}}</h3>
+    </div>
+
+</body>
+</html>
+<script src="../lib/angular.js"></script>
+<script src="../lib/angular-resource.min.js"></script>
+<script>
+    angular.module('myApp',['ngResource']).config([function () {
+
+    }]).controller('myController',['$scope','$resource',function ($scope,$resource) {
+        /*
+        * $resource为我们提供了很多用于网络请求的方法
+        * get()方法
+        * get()方法用于get请求,并且只能请求一个数据,如果数据最大的容器是数据就会报错
+        * */
+        var obj = $resource('wy.json');
+//        var obj = $resource('array.json');//请求的是数组对象就会报错
+        $scope.data = obj.get();
+        console.log($scope.data);
+
+        //query()方法
+        //query()方法也是基于get请求,但是其可以请求数组对象
+        //注意query()方法只能请求数组对象,非数组对象会报错和get()方法对应
+//        var obj1 = $resource('wy.json');//报错
+        var obj1 = $resource('array.json');
+        console.log(obj1.query());
+
+        //它们都有三个参数 params  successCallback errorCallback
+        //不建议使用successCallback errorCallback回调的写法 那样跟$http一样了
+        obj.get({name:'zaq'},function successCallback(result) {
+            console.log(result);
+        },function errorCallback(){
+
+        });
+
+    }])
+</script>

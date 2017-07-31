@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="myApp">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <title>网易新闻</title>
+    <link rel="stylesheet" type="text/css" href="css/style.css">
+</head>
+<body>
+
+    <h3 class="nav">导航栏</h3>
+    <ui-view></ui-view>
+    <ul class="tab">
+        <li ui-sref="tab.news"><a href="#tab/news">新闻</a></li>
+        <li ui-sref="tab.live"><a href="#tab/live">直播</a></li>
+        <li ui-sref="tab.talk"><a href="#tab/talk">话题</a></li>
+        <li ui-sref="tab.my"><a href="#tab/my">我</a></li>
+    </ul>
+</body>
+</html>
+<script src="../lib/angular.js"></script>
+<script src="../lib/angular-ui-router.js"></script>
+<script src="js/app.js"></script>

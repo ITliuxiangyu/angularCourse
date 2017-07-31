@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="myApp">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body ng-controller="myController">
+    <input placeholder="请输入" ng-model="name" ng-change="changeInputValue()">
+</body>
+<script src="//cdn.bootcss.com/angular.js/1.5.8/angular.min.js"></script>
+<script>
+    /*
+    * ng-change必须和有ng-model绑定的dom进行配合
+    * ng-change是当DOM发生改变就执行,相对于ng-keypress、ng-blur、ng-keydown更加完善
+    * */
+    var app = angular.module('myApp',[]);
+    app.controller('myController',function ($scope) {
+        $scope.name = '';
+        $scope.changeInputValue = function () {
+          console.log($scope.name);
+        };
+    });
+</script>
+</html>

@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="myApp">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body ng-controller="myController">
+    <!--{{ test | myFilter }}-->
+    {{ myArray | myFilter }}
+</body>
+<script src="js/angular.js"></script>
+<script>
+    angular.module('myApp',[]).controller('myController',function ($scope) {
+        $scope.test = 4;
+        $scope.myArray = [2,3,4,5];
+    }).filter('myFilter',function () {
+        return function (obj) {
+            console.log(obj);
+            var newArray = [];
+//            var numArray = ['231','213','3123','41','6123','741'];
+//            angular.forEach(numArray,function (data,index) {
+//                if (data.indexOf(obj) >= 0){
+//                    newArray.push(data);
+//                }
+//            });
+//            return newArray;
+            angular.forEach(obj,function (data) {
+                if (data > 2){
+                    newArray.push(data);
+                }
+                console.log(newArray);
+            });
+            return newArray;
+        }
+    })
+</script>
+</html>

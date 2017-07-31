@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<title></title>
+</head>
+<body ng-app="app">
+	<div ng-controller="myController">
+		<hello>
+        </hello>
+	</div>
+</body>
+	<script src="angular.min.js" type="text/javascript" charset="utf-8"></script>
+	<script>
+		angular.module('app', [])
+		.controller('myController', ['$scope', function($scope){
+			$scope.name = '111';
+		}])
+		.directive('hello', ['$document', function(){
+			return {
+				/*
+				* controller  字符串或者函数
+				 若是为字符串，则将字符串当做是控制器的名字，来查找注册在应用中的控制器的构造函数
+				 也可以直接在指令内部的定义为匿名函数，同样我们可以再这里注入任何服务（$log,$timeout等等）
+				* */
+				controller: function($scope, $element, $attrs) {
+					console.log($scope,$element,$attrs);
+					this.doSome = function () {
+						
+					}
+				},
+				restrict: 'E',
+				template: "<div>hello angular!</div>",
+				link: function($scope, iElm, iAttrs, controller) {
+//					console.log(controller);
+				}
+			};
+		}]);
+	</script>
+</html>

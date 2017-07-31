@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="myApp">
+<head>
+    <meta charset="UTF-8">
+    <title>ng-class动画</title>
+    <style>
+        /* ng-view的过渡动画和关键帧的 */
+        .fade-in.demo-add{
+            /*新的视图内容准备好了*/
+            position: relative;
+            left: 300px;
+            transition: 2s;
+        }
+        .fade-in.demo-add.demo-add-active {
+            position: relative;
+            left: 0;
+        }
+        /*正在离开，已有的内容将被隐藏*/
+        .fade-in.demo-remove{
+            transition: 2s;
+            position: relative;
+            left: 0;
+        }
+        .fade-in.demo-remove-active{
+            position: relative;
+            left: 300px;
+        }
+        /*@keyframes ngViewAnimate {*/
+            /*from{*/
+                /*position: relative;*/
+                /*left: 300px;*/
+            /*}*/
+            /*to{*/
+                /*position: relative;*/
+                /*left: 0;*/
+            /*}*/
+
+        /*}*/
+        /*.fade-in.demo-add{*/
+            /*animation: ngViewAnimate 2s;*/
+        /*}*/
+    </style>
+</head>
+<body ng-controller="myController">
+    <!--<div ng-init="grow">-->
+       <!--<div ng-class="{grown:grow}" class="fade-in">-->
+           <!--<h2>hello</h2>-->
+       <!--</div>-->
+    <!--</div>-->
+    <div ng-class="{demo:grow}" class="fade-in">
+    <h2>hello</h2>
+    </div>
+    <button ng-click="grow=!grow">点我</button>
+</body>
+<script src="../lib/angular.js"></script>
+<script src="../lib/angular-animate.js"></script>
+<script>
+    angular.module('myApp',['ngAnimate']).controller('myController',['$scope','$timeout',function ($scope,$timeout) {
+        $scope.grow = true;
+    }])
+</script>
+</html>

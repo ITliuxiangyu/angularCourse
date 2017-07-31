@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<title></title>
+</head>
+<body ng-app="app">
+	<div ng-controller="myController">
+		<hello>
+			{{name}}
+		</hello>
+	</div>
+</body>
+	<script src="angular.min.js" type="text/javascript" charset="utf-8"></script>
+	<script>
+		var app = angular.module('app', []);
+		app.controller('myController', ['$scope', function($scope){
+			$scope.name = '222';
+		}]);
+		app.directive('hello', [function(){
+			return {
+
+				restrict: 'E', // E = Element, A = Attribute, C = Class, M = Comment
+				template: function (element,attrs) {
+					//console.log(attrs);
+					return "<div>hello angular!{{name}}<div ng-transclude></div></div>"
+				},
+                //设置为完全隔离作用域
+				scope:{},
+				transclude: true,
+				link: function($scope, iElm, iAttrs, controller) {
+					//console.log(controller);
+				}
+			};
+		}]);
+	</script>
+</html>

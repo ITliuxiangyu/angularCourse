@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="myApp">
+<head>
+    <meta charset="UTF-8">
+    <title>示例</title>
+</head>
+<body ng-controller="myController">
+    <div>名称:<input placeholder="请输入名!" ng-model="user.firstName" ng-change="changeVal(user.firstName)"></div>
+    <div>姓氏:<input placeholder="请输入姓!" ng-model="user.lastName" ng-change="changeVal(user.lastName)"></div>
+    <div>年龄:<input placeholder="请输入年龄!" ng-model="user.age" ng-change="changeVal('年龄',user.age)"></div>
+    <div>电话:<input placeholder="请输入联系方式!" ng-model="user.phone" ng-change="changeVal('电话',user.phone)"></div>
+    <span ng-if='isShow'>您的基本信息为:{{allSummary}}</span>
+</body>
+<script src="//cdn.bootcss.com/angular.js/1.5.8/angular.min.js"></script>
+<script>
+    /*
+    * ng-show 和 ng-hidden 无论是否为真DOM都会解析
+    * ng-if 如果为真DOM就会加载解析 否则就不解析DOM
+    * 在没有DOM操作的场景中判断元素是否显示和隐藏,建议使用ng-if,反之使用ng-show或者ng-hidden
+    * */
+    var app = angular.module('myApp',[]);
+    app.controller('myController',function ($scope) {
+        $scope.user = {
+            firstName:'',
+            lastName:'',
+            age:'',
+            phone:''
+        };
+        $scope.changeVal = function (type,obj) {
+            if(type == '年龄'){
+                if(!/^[0-9]*$/.test(obj)){
+                    alert("年龄必须是数字!");
+                    $scope.user.age = '';
+                }
+            }
+            if(type == '电话'){
+                if(!/^[0-9]*$/.test(obj)){
+                    alert("电话必须是数字!");
+                    $scope.user.phone = '';
+                }
+            }
+            console.log("检查了吗");
+            $scope.isShow = $scope.user.firstName && $scope.user.lastName && $scope.user.age && $scope.user.phone;
+            if($scope.isShow){
+                $scope.allSummary = "姓名:" + $scope.user.lastName + $scope.user.firstName + ',' + "年龄:" + $scope.user.age + "," + "电话:" + $scope.user.phone;
+            }
+
+        };
+    });
+</script>
+</html>

@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="app">
+<head>
+    <meta charset="UTF-8">
+    <title></title>
+    <script src="../lib/angular.js"></script>
+</head>
+<body ng-controller="myCtr">
+
+    <button ng-click="doSome()">点我</button>
+
+<script>
+
+    angular.module('app', []).controller('myCtr', function ($scope, $q, $timeout, $interval) {
+
+        $scope.doSome = function () {
+            var defer = $q.defer();
+            var defer2 = $q.defer();
+            var promise = defer.promise;
+            var promise2 = defer2.promise;
+
+            //promises中任何一个解析成功或失败就返回一个新的promise(里面包含解析成功或失败的值)
+            $q.race([promise, promise2]).then(function (val) {
+                console.log(val);
+            });
+            //当all参数数组里面的所有promise解析成功的时候,返回一个新的解析完成的promise
+//            $q.all([promise, promise2]).then(function (val) {
+//                console.log(val);
+//            });
+
+
+
+            $timeout(function () {
+                defer.reject('p1');
+                defer2.resolve('p2');
+            }, 0);
+
+        }
+    })
+
+</script>
+</body>
+</html>

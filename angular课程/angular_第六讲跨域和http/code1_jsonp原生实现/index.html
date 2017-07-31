@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+    <button onclick="getData()">获取数据</button>
+</body>
+<script>
+    function getData() {
+        var script = document.createElement('script');
+        script.type = 'text/javascript';
+        var myUrl = 'http://c.m.163.com/nc/article/headline/T1348647853363/0-10.html';
+        script.src = 'http://localhost:3000/?myUrl=' + myUrl + '&callback=callbackFunc';
+        document.getElementsByTagName('head')[0].appendChild(script);
+    }
+    function callbackFunc(data) {
+        console.log(data);
+    }
+</script>
+</html>

@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="myApp">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <!--animate.css-->
+    <link rel="stylesheet" type="text/css" href="../lib/animate.css">
+    <style>
+        div{
+            width: 100px;
+            height: 100px;
+            margin-top: 5px;
+            margin-left: 5px;
+            background-color: red;
+            float: left;
+        }
+        /*我们可以在animate.css的基础上更改它*/
+        .bounce{
+            animation-delay: 1s;
+            -webkit-transition-delay: 1s;
+        }
+    </style>
+</head>
+<body ng-controller="myController">
+
+    <!--<div id="myDiv" class="animated">2222</div>-->
+
+    <!--animated.css使用方式 首先给animated类 然后后面跟样式类 infinite类是代表一致循环动画-->
+    <div id="myDiv" class="animated bounce infinite"></div>
+    <div class="animated shake infinite"></div>
+    <!--<div class="animated slideInDown infinite"></div>-->
+    <!--<div class="animated fadeInUp infinite"></div>-->
+    <!--<div class="animated rollIn infinite"></div>-->
+    <!--<div class="animated rotateOut infinite"></div>-->
+</body>
+</html>
+<script src="../lib/angular.js"></script>
+<script src="../lib/angular-animate.js"></script>
+<script>
+    /*
+    * animate.css除了能当成一个强大的动画插件外，它还完全适配了angularjs的$animate服务，也就是说animate.css的动画类里有完整的ng-enter、**-add等等angular内置的样式或结构类，所以能被angular的各种指令完美使用
+    * */
+    angular.module('myApp',['ngAnimate']).controller('myController',['$scope','$timeout','$animate',function ($scope,$timeout,$animate) {
+//        $timeout(function () {
+//            $scope.personArray = ['张三','李四','王二','麻子']
+//        })
+        var myDiv = document.getElementById('myDiv');
+        myDiv.addEventListener('click',function () {
+            //需要传播
+            $scope.$apply(function () {
+                $animate.addClass(myDiv,"shake");
+            })
+        });
+    }]);
+</script>

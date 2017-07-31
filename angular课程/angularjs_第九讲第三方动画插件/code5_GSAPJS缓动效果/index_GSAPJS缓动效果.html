@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="myApp">
+<head>
+    <meta charset="UTF-8">
+    <title>GSAPJS缓动效果</title>
+    <style>
+        div{
+            width: 100px;
+            height: 100px;
+            background-color: aquamarine;
+            border-radius: 5px;
+        }
+    </style>
+</head>
+<body ng-controller="myController">
+    <!--angular里的$event和原生里的event等价-->
+    <div ng-click="useGSAPEase($event)"></div>
+</body>
+</html>
+<script src="../lib/angular.js"></script>
+<!--使用TweenLite必须要把和其配合的库也添加进去-->
+<script src="../lib/CSSPlugin.min.js"></script><!--CSS渲染库-->
+<script src="../lib/EasePack.min.js"></script><!--缓动效果库-->
+<script src="../lib/TweenLite.min.js"></script>
+<script>
+    angular.module('myApp',[]).controller('myController',['$scope',function ($scope) {
+        $scope.useGSAPEase = function (event) {
+            /*
+            * x,y是相对元素起始位置来计算的坐标
+            * */
+//            TweenLite.to(event.target,1,{x:"300px",ease:Power1.easeIn});
+//            TweenLite.to(event.target,1,{x:"300px",ease:Power1.easeInOut});
+//            TweenLite.to(event.target,1,{x:"300px",ease:Power1.easeOut});
+            /*Power有四个级别 代表不同的速度*/
+//            TweenLite.to(event.target,1,{x:"300px",ease:Power4.easeIn});
+//            TweenLite.to(event.target,1,{x:"300px",ease:Power4.easeInOut});
+//            TweenLite.to(event.target,1,{x:"300px",ease:Power4.easeOut});
+            /*其他缓动效果
+            * Back.easeIn    Back.easeInOut    Back.easeOut
+             Strong 、Bounce和Elastic，使用方法也是一样的
+            * */
+            TweenLite.to(event.target,1,{x:"300px",ease:Back.easeIn});
+
+        }
+    }]);
+</script>

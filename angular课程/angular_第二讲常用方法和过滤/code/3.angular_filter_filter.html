@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="myApp">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body ng-controller="myController">
+    {{obj | filter:{'name':'张三'} }}
+    {{obj | filter:isHas:true }}
+    <br><br><br>
+    {{obj | json }}
+    <br><br><br>
+    {{name | limitTo:1}}
+    <br><br><br>
+    {{num | number:3}}
+</body>
+<script src="js/angular.js"></script>
+<script>
+    /*
+    * filter:在C指定数组中选择一个子集,并将其过滤后生成一个新数组,有三种参数类型,1.字符 2.对象 3.函数
+    * limitTo:截取整个字符串,参数为正整数的时候是从前到后截取,参数为负整数的时候是从后往往前截取
+    * number:从float类型的字符的小数点开始截取,参数就是往后取的位数
+    * */
+    angular.module('myApp',[])
+    .controller('myController',function ($scope) {
+//        $scope.detail = [1,2,3,45,6,23,23,1];
+//        $scope.detail = 'sdawewqeqweqweqwe';
+        $scope.obj = [{name :'张三'},{name :'李四'},{'name':'张三'}];
+        $scope.obj2 = [{'name':'张三'},{'name':'李四'},{'name':'张'}];
+        var result = angular.equals($scope.obj,$scope.obj2);
+//        alert(result);
+        $scope.isHas = function (str) {
+           if(str.name == '李四'){
+               return str;
+           }
+           console.log(str);
+        };
+        $scope.name = 'hello qingyun';
+        $scope.num = 123.4432;
+    })
+</script>
+</html>

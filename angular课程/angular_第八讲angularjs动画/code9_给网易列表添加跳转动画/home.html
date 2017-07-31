@@ -1,0 +1,26 @@
+<div class="container-fluid topHead">
+    <!--<button>-->
+        <!--<span class="glyphicon glyphicon-arrow-left headBtn">返回</span>-->
+    <!--</button>-->
+    <h3 class="headTitle">网易</h3>
+</div>
+<div class="newsContent">
+    <ul class="list-group" ng-repeat="new in mine.newsListArray">
+        <li class="list-group-item newsLi" ng-click="mine.goToDetailView($index)">
+            <img ng-src="{{new.imgsrc}}" class="newsImg">
+            <table class="newsTable">
+                <tr>
+                    <td>
+                        <span class="newsTitle">{{new.title}}</span>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="newsSource">
+                        <span>{{new.source}}</span>
+                        <span class="replySpan">{{new.replyCount + '跟贴'}}</span>
+                    </td>
+                </tr>
+            </table>
+        </li>
+    </ul>
+</div>

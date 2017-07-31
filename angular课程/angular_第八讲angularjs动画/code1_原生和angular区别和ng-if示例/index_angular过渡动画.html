@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="myApp">
+<head>
+    <meta charset="UTF-8">
+    <title>angular过渡动画</title>
+    <style>
+        /*
+        * angularjs支持的指令动画分三种 一种是结构类动画 一种是样式类动画 一种是ng-show ng-hide
+        * $animate服务会给指令发出的时间添加特定的样式类,结构性动画添加上的CSS类是ng-enter和ng-enter-active
+        * ng-enter代表初始化时状态类 ng-enter-active代表触发动画类
+        */
+        /* 初始时的样式*/
+        .fade {
+            width: 50px;
+            height: 50px;
+            background-color: red;
+            transition: 3s linear all;
+        }
+        /*原生动画会首先把DOM以初始值的设置显示,而angular是以ng-enter里的为主,初始值只能影响最后动画结束的效果*/
+        .fade.ng-enter {
+            width: 0;
+            height: 0;
+            opacity: 0;
+        }
+        /*
+        添加ng-enter-active类的时候会触发动画
+        */
+        .fade.ng-enter.ng-enter-active {
+            width: 100px;
+            height: 100px;
+            opacity: 1;/* 结束时的样式 */
+        }
+        .fade.ng-leave {
+            opacity: 1;
+        }
+        .fade.ng-leave.ng-leave-active{
+            opacity: 0;
+            width: 0;
+            height: 0;
+        }
+    </style>
+</head>
+<body ng-controller="myController">
+    <div ng-if="isShowDiv" class="fade"></div>
+    <button ng-click="isShowDiv=true">点击</button>
+    <button ng-click="isShowDiv=false">隐藏</button>
+</body>
+<script src="../lib/angular.js"></script>
+<script src="../lib/angular-animate.js"></script>
+<script>
+    angular.module('myApp',['ngAnimate']).controller('myController',['$scope',function ($scope) {
+
+    }]);
+</script>
+</html>

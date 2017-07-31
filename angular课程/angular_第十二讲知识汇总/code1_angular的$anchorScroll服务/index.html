@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="myApp">
+<head>
+    <meta charset="UTF-8">
+    <title>$anchorScroll</title>
+</head>
+<body ng-controller="myController">
+
+    <div id="div1" style="height: 500px;background-color: antiquewhite">
+
+    </div>
+
+    <div id="div2" style="height: 500px;background-color: blue">
+
+    </div>
+
+    <div id="div3" style="height: 500px;background-color: rebeccapurple">
+
+    </div>
+
+    <div id="div4" style="height: 500px;background-color: red">
+
+    </div>
+
+</body>
+</html>
+<script src="../lib/angular.js"></script>
+<script>
+    angular.module('myApp',[]).controller('myController',['$scope','$location','$anchorScroll',function ($scope,$location,$anchorScroll) {
+        //有时候我们遇到一个这样的需求,用户滑动很长了,需求说有个按钮点击会到顶部或者底部,我们有很多种实现方式,比如js设置偏移量,a标签跳转等等,但是那些要么写着麻烦要么不完美,angular给我们提供了实现这个小功能的服务$anchorScroll,不过它是配合$location使用的
+        //$anchorScroll服务不需要去使用只需要引用就行了
+        //实现自动跳转用的是$location.hash()这个方法,里面跟元素的id
+        $location.hash('div4');
+    }])
+</script>

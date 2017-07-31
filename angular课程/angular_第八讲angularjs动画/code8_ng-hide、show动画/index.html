@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="myApp">
+<head>
+    <meta charset="UTF-8">
+    <title>ng-switch动画</title>
+    <style>
+        /* ng-view的过渡动画和关键帧的 */
+        /*.fade-in.ng-hide-add{*/
+            /*!*新的视图内容准备好了*!*/
+            /*position: relative;*/
+            /*left: 300px;*/
+            /*transition: 2s;*/
+        /*}*/
+        /*.fade-in.ng-hide-add.ng-hide-add-active {*/
+            /*position: relative;*/
+            /*left: 0;*/
+        /*}*/
+        /*!*正在离开，已有的内容将被隐藏*!*/
+        /*.fade-in.ng-hide-remove{*/
+            /*transition: 2s;*/
+            /*position: relative;*/
+            /*left: 300px;*/
+        /*}*/
+        /*.fade-in.ng-hide-remove-active{*/
+            /*position: relative;*/
+            /*left: 0;*/
+        /*}*/
+        @keyframes ngViewAnimate {
+            from{
+                position: relative;
+                left: 300px;
+            }
+            to{
+                position: relative;
+                left: 0;
+            }
+
+        }
+        .fade-in.ng-hide-add{
+            animation: ngViewAnimate 2s;
+        }
+        .fade-in.ng-hide-remove{
+            animation: ngViewAnimate 2s;
+        }
+        /*ng-show和ng-hide 共用一个ng-hide添加类 */
+    </style>
+</head>
+<body ng-controller="myController">
+    <div ng-hide="divStatus" class="fade-in">
+        hello qingyun
+    </div>
+    <button ng-click="divStatus=true">显示</button>
+    <button ng-click="divStatus=false">隐藏</button>
+</body>
+<script src="../lib/angular.js"></script>
+<script src="../lib/angular-animate.js"></script>
+<script>
+    angular.module('myApp',['ngAnimate']).controller('myController',['$scope','$timeout',function ($scope,$timeout) {
+    }])
+</script>
+</html>

@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="myApp">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+    <div ng-init="age='10'">
+        {{age}}
+    </div>
+    <div ng-controller="myController">
+        <button ng-click="printSome()">点击</button>
+    </div>
+</body>
+<script src="//cdn.bootcss.com/angular.js/1.5.8/angular.min.js"></script>
+<script>
+    /*
+    * app.controller('myController',fun);第一个参数是controller的名字,第二个参数的回调
+    * ng-controller:引入创建的controller作用域
+    * ng-init:创建的变量是不被其他controller持有的,相当于js的全局变量
+    * $scope:作用域对象,可以持有变量、对象、方法等
+    * 在作用域里面调用的$scope持有的变量或对象或者方法的时候也需要使用$scope.*
+    * */
+    var app = angular.module('myApp',[]);
+    //console.log(app);
+    app.controller('myController',function ($scope) {
+        console.log($scope.age);
+        $scope.name = '张三';
+        $scope.person = {
+            name:'张三',
+            age:'20'
+        };
+        $scope.printSome = function () {
+            console.log($scope.person);
+        };
+
+    });
+</script>
+</html>

@@ -1,0 +1,11 @@
+<div class="container-fluid topHead">
+    <!--<button class="summaryBackBtn">-->
+    <div>
+        <span class="btn glyphicon glyphicon-arrow-left summaryBackBtn" ng-click="summary.goBack()">返回</span>
+    </div>
+</div>
+<div class="newsContent">
+    <h3 ng-bind-html="summary.title"></h3>
+    <span ng-bind-html="summary.otherTitle"></span>
+    <div ng-bind-html="summary.body" style="text-align: center"></div>
+</div>

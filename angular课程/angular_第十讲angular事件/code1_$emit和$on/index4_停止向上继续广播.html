@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="myApp">
+<head>
+    <meta charset="UTF-8">
+    <title>停止向上广播</title>
+</head>
+<body>
+    <div ng-controller="rootController"><!--最顶层的父controller-->
+        <div ng-controller="parentController"><!--父controller-->
+
+            <div ng-controller="childController"><!--子controller-->
+                <button ng-click="emitSome()">往父传播</button>
+            </div>
+
+        </div>
+    </div>
+</body>
+</html>
+<script src="../lib/angular.js"></script>
+<script>
+    angular.module('myApp',[]).controller('rootController',['$scope',function ($scope) {
+        $scope.$on('hello',function (event,msg) {
+            //当我们在parentController里停止向上广播后我们这里就不会被触发
+            //这个功能是很有用的,有时候我们会自己创建一个最大的作用域来写一些需要被继承的功能,但是我们不想污染到$rootScope作用域所以我们在收到广播后需要让事件禁止再向上广播
+
+            console.log(msg);
+        })
+    }]).controller('parentController',['$scope',function ($scope) {
+        $scope.$on('hello',function (event,msg) {
+            console.log(event);
+            //我们在这里停止向上广播,那么再上层的作用域就收不到广播了
+            event.stopPropagation();
+
+        })
+
+
+    }]).controller('childController',['$scope',function ($scope) {
+        $scope.name = '张三';
+        $scope.emitSome = function () {
+            $scope.$emit('hello','world');
+
+        };
+    }])
+</script>

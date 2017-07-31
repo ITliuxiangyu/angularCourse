@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="myApp">
+<head>
+    <meta charset="UTF-8">
+    <title>angular_copy</title>
+</head>
+<body>
+    <div ng-controller="myController">
+
+    </div>
+</body>
+<script src="//cdn.bootcss.com/angular.js/1.5.8/angular.min.js"></script>
+<script>
+    /*
+    * angular.copy 拷贝 两个参数第一个是被拷贝的对象source,第二个是目标对象destination 目标对象如果存在就会被替换,如果不存在就会创建一个新的
+    * copy的目标必须是容器对象或者数组,否则无法扩展就会报错
+    * */
+    console.log(window);
+    var app = angular.module('myApp',[]);
+    app.controller('myController',function ($scope) {
+
+        var myArray = [1,2,3,4,5,6];
+        var newArray = [];
+//        newArray = myArray;
+        angular.copy(myArray,newArray);
+        for (var i = 0; i < myArray.length;i++){
+            newArray.push(2);
+            console.log(newArray);
+        }
+        //copy 对象
+//        $scope.man = {'name':'张三'};
+//        $scope.person = {'age':'20'};
+        $scope.man = '22';
+        $scope.person = '11';
+//        angular.copy($scope.man,$scope.person);
+        var result = angular.copy($scope.man);
+//        console.log($scope.person);
+        console.log(result);
+    });
+</script>
+</html>

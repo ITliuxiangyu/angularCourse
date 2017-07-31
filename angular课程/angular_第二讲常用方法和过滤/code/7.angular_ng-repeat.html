@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="myApp">
+<head>
+    <meta charset="UTF-8">
+    <title>ng-repeat</title>
+</head>
+<body ng-controller="myController">
+    <div ng-repeat="user in myScope.nameArray track by $index">
+        <button>{{user}}</button>
+    </div>
+</body>
+<script src="js/angular.js"></script>
+<script>
+    /*
+    * ng-repeat:控制循环的指令 语法 arr in array
+    * 当循环源里面有相同的数据而不是对象的时候,会出现报错,是因为在angular里每个取出的数据都有一个唯一的id,数据相同的时候就会出现冲突,报错,解决办法是在数组后面加上 track by $index
+    * */
+    angular.module('myApp',[]).controller('myController',['$scope',function ($scope) {
+        $scope.myScope = {
+//            nameArray : [{'name' :'严东凯'},{'name' :'李玉杰'},{'name':'王帅涛'},{'name' :'张浩'},{'name' :'刘亚鹏'},{'name':'戚殿卿'},{'name':'张德宇'},{'name':'陈红立'},{'name':'司传峰'},{'name':'陈红立'}]
+            nameArray:[1,23,3,32,21,3123,2,2,3]
+        }
+    }]);
+</script>
+</html>

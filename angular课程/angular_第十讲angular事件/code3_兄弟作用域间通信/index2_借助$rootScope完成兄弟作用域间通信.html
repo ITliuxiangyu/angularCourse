@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="myApp">
+<head>
+    <meta charset="UTF-8">
+    <title>借助$rootScope完成兄弟作用域间通信</title>
+</head>
+<body>
+
+    <div ng-controller="firstController">
+        <button ng-click="emitMsg()">兄传播事件</button>
+    </div>
+
+    <div ng-controller="secondController">
+
+    </div>
+</body>
+</html>
+<script src="../lib/angular.js"></script>
+<script>
+    /*
+    * 使用$rootScope来完成兄弟作用域通信流程
+    * 1.首先兄作用域向上级作用域传播一个事件,在run方法里使用$rootScope接收
+    * 2.$rootScope接收兄作用域传播的事件,然后在向下传播给子作用域
+    * 3.弟作用域监听父作用域传播的消息,这个消息里是兄作用域传播的消息
+    * */
+    /*
+    * run方法介绍,该方法运行与config方法之后服务方法之前
+    * */
+     /*
+    * 借用$rootScope通信的方式我们尽量少使用,最好的方式是使用服务来完成不同controller或者页面的通信,一是由于angular事件系统会产生监听和传播,如果监控的事件过多会影响性能,并且使用$rootScope会产生全局污染,这都是我们需要避免的,因为$rootScope自身有很多系统事件去监听,并且我们项目中经常的用的路由模式已经完全隔离的很多的controller嵌套的情景,使项目组件化
+    * */
+    angular.module('myApp',[]).run(['$rootScope',function ($rootScope) {
+        $rootScope.$on('hello',function (evt,msg) {
+            console.log("$rootScope收到消息—————" + msg);
+            $rootScope.$broadcast('next',msg);
+        })
+    }]).controller('firstController',['$scope',function ($scope) {
+        $scope.emitMsg = function () {
+            $scope.$emit('hello','你好我是兄作用域');
+        };
+    }]).controller('secondController',['$scope',function ($scope) {
+        $scope.$on('hello',function (evt,msg) {
+            console.log("弟作用域不能直接收到消息----" + msg);
+        });
+        $scope.$on('next',function (evt,msg) {
+            console.log("弟作用域收到了$rootScope传递的兄的消息----" + msg);
+        })
+    }])
+</script>

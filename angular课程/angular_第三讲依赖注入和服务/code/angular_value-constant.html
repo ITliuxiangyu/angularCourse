@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="myApp">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+
+    <div ng-controller="myController">
+        <button ng-click="changeVal()">改变</button>
+    </div>
+    <div ng-controller="otherController">
+        <button ng-click="consoleVal()">打印</button>
+    </div>
+</body>
+</html>
+<script src="js/angular.js"></script>
+<script src="js/test1.js"></script>
+<script src="js/test2.js"></script>
+<script>
+    angular.module('myApp',[]).controller('myController',function ($scope,demo) {
+        $scope.changeVal = function () {
+            demo.name = 'aaa';
+            console.log(demo)
+        };
+    }).controller('otherController',function ($scope,demo) {
+        $scope.consoleVal = function () {
+            console.log(demo);
+        }
+    }).value('demo1',{name:'zaq'}).constant('demo',{name:'2'});
+</script>

@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="myApp">
+<head>
+    <meta charset="UTF-8">
+    <title>ngInclude例子</title>
+    <script src="../lib/angular.js"></script>
+</head>
+<body>
+    <div ng-controller="myController">
+
+        <!--这里设置一个选择框来完成选择模板操作-->
+        <select ng-model="template" ng-options="template.name for template in templates">
+            <option value="">(blank)</option>
+        </select>
+
+        <!--当前加载的模板为:{{template.url}}-->
+
+        <div style="height: 300px;width: 500px;background-color: red" ng-include="template.url" onload="doSomeThing()"></div>
+        &lt;!&ndash;注:这里的onload和原生html里的onload有些许不同,其其实已经被angular扩展所以可以调用$scope持有的方法或对象&ndash;&gt;
+
+    </div>
+</body>
+<!--这是模板的另一种写法,这里的id就代表模板路径-->
+<script type="text/ng-template" id="template2.html">
+    <p>我是tpl3</p>
+</script>
+<script type="text/javascript">
+    angular.module('myApp', [])
+    .controller('myController', ['$scope','$sce', function ($scope,$sce) {
+        $scope.templates =
+                [{ name: 'template1.html', url: 'template1.html' },
+                { name: 'template2.html', url: 'template2.html' }];
+        $scope.template = $scope.templates[0];
+        $scope.doSomeThing = function () {
+//            alert('22');
+        };
+        $scope.myStyle = {
+            'background-color':'red'
+        };
+    }]);
+</script>
+</html>

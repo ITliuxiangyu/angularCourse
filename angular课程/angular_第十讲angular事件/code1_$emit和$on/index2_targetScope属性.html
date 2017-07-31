@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="myApp">
+<head>
+    <meta charset="UTF-8">
+    <title>targetScope属性</title>
+</head>
+<body>
+<div ng-controller="parentController"><!--父controller-->
+
+    <div ng-controller="childController"><!--子controller-->
+        <button ng-click="emitSome()">往父传播</button>
+        <button ng-click="lookVal()">查看改变</button>
+    </div>
+
+</div>
+</body>
+</html>
+<script src="../lib/angular.js"></script>
+<script>
+    angular.module('myApp',[]).controller('parentController',['$scope',function ($scope) {
+        $scope.$on('hello',function (event,msg) {
+            //event代表传播的整个事件 而其属性targetScope代表的就是发起传播的作用域
+            console.log(event.targetScope);
+            //currentScope：作用域对象，但是其代表的是当前处理事件的作用域
+            console.log(event.currentScope);
+            //我们可以直接获取到childerController里$scope持有的对象
+            console.log(event.targetScope.name);
+            //我们不仅可以获取 我们还能直接操作它赋值等等 然后在childerController里也就被改变了
+            event.targetScope.name = '周奥琪';
+            //我们还能调用childerController里的方法
+//            event.targetScope.lookVal();
+        })
+    }]).controller('childController',['$scope',function ($scope) {
+        $scope.name = 'zaq';
+        $scope.emitSome = function () {
+            $scope.$emit('hello','world');
+
+        };
+        $scope.lookVal = function () {
+            alert($scope.name);
+        }
+    }])
+</script>

@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="myApp">
+<head>
+    <meta charset="UTF-8">
+    <title>ng-options</title>
+</head>
+<body ng-controller="myController">
+    <!--这是传统选择功能的写法-->
+    <!--<label>
+        <select>
+            <option value="apple">apple</option>
+            <option value="banana">banana</option>
+            <option value="orange" selected>orange</option>
+            <option value="grape">grape</option>
+            <option value="pear">pear</option>
+        </select>
+    </label>-->
+    <!--<label>
+        <select ng-model='mainObj.selected' ng-options="fruit.name for fruit in mainObj.fruitArray">
+            <option value="">请选择</option>
+        </select>
+    </label>-->
+    <!--这是自动选择默认选择项的方式-->
+    <!--<label>
+        <select ng-model='mainObj.selected' ng-options="fruit.name as fruit.name for fruit in mainObj.fruitArray">
+        </select>
+    </label>-->
+
+    <div >
+        <select ng-model="mycity" ng-options="city.name as city.name group by '11' for city in Cities"></select>
+    </div>
+    <h1>欢迎来到{{mycity}}</h1>
+
+</body>
+<script src="../lib/angular.js"></script>
+<script>
+    angular.module('myApp',[]).controller('myController',['$scope',function ($scope) {
+        $scope.mainObj = {
+            fruitArray : [{'name':'apple'},{'name':'banana'},{'name':'orange'},{'name':'grape'},{'name':'pear'}],
+            selected:'banana'
+        };
+
+        $scope.mycity = '北京';
+        $scope.Cities = [{ id: 1, name: '北京', group: '中国' }, { id: 2, name: '上海', group: '中国' }, { id: 3, name: '广州',group:'中国' }];
+    }]);
+</script>
+</html>

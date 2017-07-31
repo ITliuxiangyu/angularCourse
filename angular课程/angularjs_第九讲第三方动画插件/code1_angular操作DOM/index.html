@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="myApp">
+<head>
+    <meta charset="UTF-8">
+    <title>angularjs操作DOM方法</title>
+</head>
+<body ng-controller="myController">
+    <div id="myDiv">hello qingyun</div>
+    <div id="myDiv2">hello qingyun</div>
+    <button ng-click="changeHtml()">点我</button>
+</body>
+<script src="../lib/angular.js"></script>
+<script>
+    angular.module('myApp',[]).controller('myController',['$scope','$document',function ($scope,$document) {
+//        var newDiv = angular.element("<div>hello angular</div>");//为字符串时是新创建一个DOM元素
+//        var myDiv = angular.element(document.querySelector('#myDiv'));
+//        var myDiv = angular.element(document).find('div');
+//        var myDiv = angular.element(document.getElementById('myDiv'));
+//        var myDiv = $document.find('div');//$document相当于 angular.element(document)
+        var myDiv = angular.element($document[0].getElementById('myDiv'));//$document[0]则相当于原生的document
+        $scope.changeHtml = function () {
+//            console.log(newDiv);
+            console.log(myDiv);
+//            myDiv.html('HELLO,QINGYUN');
+//            myDiv1.html('HELLO,QINGYUN');
+        };
+    }])
+</script>
+</html>

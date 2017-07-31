@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="myApp">
+<head>
+    <meta charset="UTF-8">
+    <title>ng-switch动画</title>
+    <style>
+        /* ng-view的过渡动画和关键帧的 */
+        /*.fade-in.ng-enter{*/
+            /*新的视图内容准备好了*/
+            /*position: relative;*/
+            /*left: 300px;*/
+            /*transition: 2s;*/
+        /*}*/
+        /*.fade-in.ng-enter.ng-enter-active {*/
+            /*position: relative;*/
+            /*left: 0;*/
+        /*}*/
+        /*正在离开，已有的内容将被隐藏*/
+        /*.fade-in.ng-leave{*/
+            /*transition: 2s;*/
+            /*position: relative;*/
+            /*left: 300px;*/
+        /*}*/
+        /*.fade-in.ng-leave-active{*/
+            /*position: relative;*/
+            /*left: 0;*/
+        /*}*/
+        @keyframes ngViewAnimate {
+            from{
+                position: relative;
+                left: 300px;
+            }
+            to{
+                position: relative;
+                left: 0;
+            }
+
+        }
+        .fade-in.ng-enter{
+            animation: ngViewAnimate 2s;
+        }
+    </style>
+</head>
+<body ng-controller="myController">
+    <div ng-switch="userName">
+        <div class="fade-in" ng-switch-when="张三">
+            <h2>张三</h2>
+        </div>
+        <div class="fade-in" ng-switch-when="李四">
+            <h2>李四</h2>
+        </div>
+        <div class="fade-in" ng-switch-when="麻子">
+            <h2>麻子</h2>
+        </div>
+    </div>
+    <button ng-click="userName='张三'">张三</button>
+    <button ng-click="userName='李四'">李四</button>
+    <button ng-click="userName='麻子'">麻子</button>
+</body>
+<script src="../lib/angular.js"></script>
+<script src="../lib/angular-animate.js"></script>
+<script>
+    angular.module('myApp',['ngAnimate']).controller('myController',['$scope','$timeout',function ($scope,$timeout) {
+        $scope.userName = '张三';
+    }])
+</script>
+</html>

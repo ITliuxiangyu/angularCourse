@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="myApp">
+<head>
+    <meta charset="UTF-8">
+    <title>关键帧交错动画</title>
+    <style>
+        @keyframes myAnimation {
+            form{
+                opacity: 0;
+            }
+            to{
+                height: 100px;
+                width: 300px;
+                background-color: blue;
+                opacity: 1;
+            }
+        }
+        @-webkit-keyframes myAnimation {
+            form{
+                opacity: 0;
+            }
+            to{
+                opacity: 1;
+                height: 100px;
+                background-color: blue;
+            }
+        }
+        /*设置初始值*/
+        .item{
+            height: 100px;
+            width: 300px;
+            margin-top: 2px;
+            background-color: blue;
+        }
+        /*
+        原生动画效果里的forwards有效但是在angular里测试无效,但是angular可以无视本来的以前状态从设置的新状态开始,窍门就是在本来的状态里设置成为最后保留的状态,然后在.ng-enter里从新状态开始变
+        */
+        /*动画开始前*/
+        .item.ng-enter{
+            background-color: coral;
+            height: 0;
+            width: 0;
+            opacity:0;
+            animation: myAnimation 2s alternate forwards;
+            -webkit-animation: myAnimation 2s alternate forwards;
+        }
+        /*不同时出现*/
+        .item.ng-enter-stagger {
+            animation-delay:300ms;
+            -webkit-animation-delay: 300ms;
+            /*防止意外CSS继承的保护措施,要是没有这种保护交错特效就会被忽略*/
+            transition-duration:0ms;
+            -moz-animation-duration: 0ms;
+        }
+
+    </style>
+</head>
+<body ng-controller="myController">
+
+    <div class="item" ng-repeat="name in mine.nameArray">
+        {{name}}
+    </div>
+
+</body>
+<script src="../lib/angular.js"></script>
+<script src="../lib/angular-animate.js"></script>
+<script>
+    angular.module('myApp',['ngAnimate']).controller('myController',['$scope','$timeout',function ($scope,$timeout) {
+        $timeout(function () {
+            $scope.mine = {
+                nameArray :['张三','李四','王二','大傻','麻子']
+            }
+        },1);
+
+    }])
+</script>
+</html>

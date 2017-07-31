@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="myApp">
+<head>
+    <meta charset="UTF-8">
+    <title>$q</title>
+</head>
+<body ng-controller="myController">
+
+</body>
+</html>
+<script src="../lib/angular.js"></script>
+<script>
+    /*
+    * $q服务帮助处理异步函数
+     $q是一个Promises/A+规范的兼容的实现。
+
+     $q有两种用法
+     一种和jQuery的Deferred实现类似
+     一种是ES6的promises实现
+    * */
+    angular.module('myApp',[])
+    .controller('myController',['$scope','$q',function ($scope,$q) {
+
+
+        function asyncGreet(name) {
+            var defer = $q.defer();
+            setTimeout(function () {
+                //修改defer的状态为通知
+                defer.notify('更新!');
+                if (!name){
+                    //修改defer的状态为成功
+                    defer.resolve('成功!');
+                }else {
+                    //修改defer的状态为失败
+                    defer.reject('失败!');
+                }
+            },1000);
+
+            return defer.promise;
+        }
+
+        var promise = asyncGreet('hello world!');
+
+        //当promise状态为成功,失败,或通知的时候就会调用.这个方法返回一个新的promise,可以进行链式调用
+        //then有三个参数 为成功 失败 更新的回调
+//        var p = promise.then(function(greeting) {
+//            alert('Success: ' + greeting);
+//        }, function(reason) {
+//            alert('Failed: ' + reason);
+//        },function (update) {
+//            alert(update);
+//        });
+        //promise.then(null,errorCallback)错误的的快捷方法
+//        promise.catch(function () {
+//            console.log('1');
+//        });
+        //通知更新的快捷方法
+//        promise.finally(function () {
+//
+//            //doSome
+//        },function (n) {
+//            console.log(n)
+//
+//        });
+//        console.log(p);
+    }])
+</script>

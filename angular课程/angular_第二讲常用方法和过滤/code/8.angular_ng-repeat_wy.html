@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="myApp">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <title>Title</title>
+    <link href="css/wy_demo.css" rel="stylesheet" type="text/css">
+</head>
+<body ng-controller="myController">
+    <div class="listDiv" ng-repeat="summary in summaryArray | orderBy:summary.priority">
+        <img ng-src="{{summary.imgsrc}}" class="leftImg">
+        <div class="spanDiv">
+            <span>{{summary.title}}</span>
+            <span class="sourceSpan">{{summary.source}}</span>
+        </div>
+    </div>
+</body>
+<script src="js/angular.js"></script>
+<script>
+    angular.module('myApp',[]).controller('myController',['$scope','$http',function ($scope,$http) {
+        $http.get('wy_json.json').success(function (data) {
+            $scope.summaryArray = data.T1348647853363;
+            $scope.summaryArray.splice(0,1);
+            console.log($scope.summaryArray);
+        });
+    }])
+</script>
+</html>

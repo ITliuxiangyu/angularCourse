@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="myApp">
+<head>
+    <meta charset="UTF-8">
+    <title>angular_$apply</title>
+</head>
+<body>
+    <div ng-controller="myController">
+        <button ng-click="changeVal()">点击</button>
+        {{name}}
+    </div>
+</body>
+<script src="//cdn.bootcss.com/angular.js/1.5.8/angular.min.js"></script>
+<script>
+//    function changeVal() {
+//        alert('点击了');
+//    }
+    /**
+     * angular作用域中是无法传播原生js的,如果需要传播就需要用到$scoped $apply方法
+     * 双向数据绑定在angular中的原理:当把一个变量绑定到DOM上就会创建一个$scope.$watch,当$watch观察到变量值改变就会传播到DOM上
+     * 在混合使用框架的时候非angular的方法会无法传播到DOM上,这个要记住需要用$apply传播
+     * @type {angular.Module}
+     */
+    var app = angular.module('myApp',[]);
+    app.controller('myController',function ($scope,$timeout) {
+        $scope.name = '张三';
+        $scope.num = 0;
+//        setTimeout(function () {
+//            $scope.$apply(function () {
+//                $scope.name = '李四';
+//            });
+//        },2000);
+//        $timeout(function () {
+//            $scope.name = '王五';
+//        },3000);
+        $scope.changeVal = function () {
+            $scope.num++;
+            /*
+            * 使用了angularjs的指令或者方法的时候不需要传播,因为angular内部把自己的指令封装的有$apply方法,非angular的延时或回调或事件是不能把改变传播到DOM上
+            * */
+//            $scope.$apply(function () {
+//                $scope.name = $scope.num;
+//            });
+        };
+//        setInterval($scope.changeVal,1000);
+    });
+</script>
+</html>

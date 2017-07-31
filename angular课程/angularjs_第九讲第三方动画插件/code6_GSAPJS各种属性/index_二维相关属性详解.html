@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="myApp">
+<head>
+    <meta charset="UTF-8">
+    <title>GSAPJS属性详解</title>
+    <style>
+        div{
+            width: 100px;
+            height: 100px;
+            background-color: red;
+        }
+    </style>
+</head>
+<body ng-controller="myController">
+    <!--angular里的$event和原生里的event等价-->
+    <div id="rect" ng-click="useGSAPEase()">我是demo</div>
+</body>
+</html>
+<script src="../lib/angular.js"></script>
+<!--使用TweenLite必须要把和其配合的库也添加进去-->
+<script src="../lib/CSSPlugin.min.js"></script><!--CSS渲染库-->
+<script src="../lib/EasePack.min.js"></script><!--缓动效果库-->
+<script src="../lib/TweenLite.min.js"></script>
+<script>
+    angular.module('myApp',[]).controller('myController',['$scope',function ($scope) {
+        $scope.useGSAPEase = function (event) {
+            //第一部分：操作div的二维相关属性:位置操作：CSS的(left top margin) 和 GSAP里的(x y) 和 js里的(offsetLeft offsetTop)
+            // x,y则是相对元素起始位置来计算的坐标，即元素的起始位置的x,y的值为(0,0)
+//            TweenLite.to("#rect",1,{x:500,y:200,ease:Back.easeOut});
+
+
+            //注意GSAP里margin-left padding-left等属性的写法要写成marginLeft paddingLeft，即不要“-”，接在“-”后的单词的首字母要大写
+            // padding不算是位置的操作，但为了方便，和margin写在一起看
+//             TweenLite.to("#rect",1,{marginLeft:100,paddingTop:10,ease:Back.easeOut});
+            //大小操作scaleX scaleY scale width height
+            // 注意:虽然scale（缩放比例）和width height都可以让元素放大，但是，scale会元素内的内容也一起放大，而width height只是把容器放大啦，里面的内容不大小不变
+//             TweenLite.to("#rect",1,{scaleX:2,scale:1.5,ease:Back.easeOut});
+//             TweenLite.to("#rect",1,{scale:2,ease:Back.easeOut});
+//             TweenLite.to("#rect",1,{width:200,height:200,ease:Back.easeOut});
+
+            //变换(transform)操作:
+            //其实刚才说的rotation scale x y都属于变换的操作，这里说另外的两个变换（rotation(旋转) skew（倾斜））
+//             TweenLite.to("#rect",1,{rotation:45,ease:Back.easeOut});
+//             TweenLite.to("#rect",1,{skewX:30,ease:Back.easeOut});
+//             TweenLite.to("#rect",1,{skewY:-30,ease:Back.easeOut});
+        }
+    }]);
+</script>

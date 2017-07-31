@@ -1,0 +1,29 @@
+<!--<div>-->
+    <!--<h3 class="nav">导航栏</h3>-->
+    <!--<ul class="tab">-->
+        <!--<li ui-sref=".news"><a href="">新闻</a></li>-->
+        <!--<li ui-sref=".live"><a href="">直播</a></li>-->
+        <!--<li ui-sref=".talk"><a href="">话题</a></li>-->
+        <!--<li ui-sref=".my"><a href="">我</a></li>-->
+    <!--</ul>-->
+    <!--<div class="content">-->
+        <!--<div ui-view></div>-->
+    <!--</div>-->
+
+<!--</div>-->
+
+
+<div class="content">
+    <ui-view name="news"></ui-view>
+</div>
+
+<div class="content">
+    <ui-view name="live"></ui-view>
+</div>
+
+<div class="content">
+    <ui-view name="talk"></ui-view>
+</div>
+<div class="content">
+    <ui-view name="my"></ui-view>
+</div>

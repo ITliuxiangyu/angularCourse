@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="myApp">
+<head>
+    <meta charset="UTF-8">
+    <title>orderBy</title>
+</head>
+<body ng-controller="myController">
+    {{array | orderBy:'+':true }}
+    {{array | orderBy:isHas:true }}
+</body>
+<script src="js/angular.js"></script>
+<script>
+    /*
+    * orderBy:排序,默认是从小到大正向排序,两个参数,第一个参数可以为字符串/函数,为'+'或'-'的时候为按正反向排序,第二个参数为是否逆向排序的参数true代表为逆向排序,false代表不逆向排序
+    * orderBy:参数为函数时,在里面写判断的时候与filter不同的是,其会把满足条件的先输出,不满足条件的放后面,而filter会过滤掉不满足条件的
+    * */
+    angular.module('myApp',[]).controller('myController',function ($scope) {
+        $scope.array = [1,23,4,32,532,51];
+        $scope.isHas = function (str) {
+//            console.log(str);
+            if(str > 20){
+                return str;
+            }
+        };
+    })
+</script>
+</html>

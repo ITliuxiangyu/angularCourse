@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="myApp">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body ng-controller="myController">
+
+    单向数据绑定
+    <input placeholder="" ng-model="name">
+    <hello name="{{name}}"></hello>
+
+    <br>
+    双向数据绑定
+    <input placeholder="" ng-model="name1">
+    <hello1 name1="name1"></hello1>
+
+    <br>
+    调用父作用域的方法
+
+    <!--saysome这里要么小写 要么在使用大写的时候 使用say-some的方式-->
+    <hello2 say-some="say()"></hello2>
+
+
+</body>
+</html>
+<script src="lib/angular.min.js"></script>
+<script>
+    angular.module('myApp',[]).controller('myController',['$scope',function ($scope) {
+
+        $scope.name = '';
+        $scope.name1 = '';
+        $scope.say = function () {
+            alert('hello angular!');
+        }
+
+    }]).directive('hello',[function () {
+        return {
+            restrict:'EAC',
+            replace:true,
+            /*
+            * scope为{}时 这时候会完全隔离作用域，为什么会完全隔离作用域，因为{}里其实就绑定的对象，如果没有就是一个也不绑定，所以称之为完全隔离，然后如果{}有对象 就代表改变对应的对象被绑定 如果值为@代表单向绑定 如果值为=双向数据绑定 如果为&代表可以调用父作用的函数
+            * 注：单向绑定时 <hello name="{{name}}"></hello> 绑定的变量要加{{}}进行编译，而在双向数据绑定时 不需要加加的话会出问题
+            * */
+            scope:{name:'@'},
+            template:'<input placeholder="请输入..." ng-model="name">'
+
+        }
+    }]).directive('hello1',[function () {
+        return {
+            restrict:'EAC',
+            replace:true,
+            /*
+             * 注：单向绑定时 <hello name="{{name}}"></hello> 绑定的变量要加{{}}进行编译，而在双向数据绑定时 不需要加加的话会出问题
+             * */
+            scope:{name1:'='},
+            template:'<input placeholder="请输入..." ng-model="name1">'
+
+        }
+    }]).directive('hello2',[function () {
+        return {
+            restrict:'E',
+            replace:true,
+            /*
+            * 在angular指令里属性和指令如果是大写的要使用变小写加-方式
+            * */
+            scope:{saySomThing:'&saySome'},
+            template:'<button ng-click="saySomThing()">点我</button>'
+
+        }
+    }]);
+</script>

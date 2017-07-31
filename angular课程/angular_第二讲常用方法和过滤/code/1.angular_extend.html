@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="myApp">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+    <div ng-controller="myController">
+
+    </div>
+</body>
+<script src="js/angular.js"></script>
+<script>
+    var app = angular.module('myApp',[]);
+    app.controller('myController',function ($scope) {
+        $scope.man = {
+            name:'张三',
+            age:'23'
+        };
+        $scope.person = {
+            sex:'男',
+            height:'178cm',
+            doSome:function () {
+                console.log('s');
+            }
+        };
+        $scope.summary = {
+            monmey:'10000',
+            like:'运动'
+        };
+        angular.extend($scope.man,$scope.person,$scope.summary);
+        console.log($scope.man);
+
+        $scope.nameArray = ['张三','李四','王五','黎明','周星驰'];
+        angular.forEach($scope.nameArray,function (data,index,array) {
+            console.log(data);
+            console.log(index);
+            console.log(array);
+        });
+        /*
+        * angular.extend(),第一个参数为目标对象(这里和copy相反),后续的参数为要继承的对象,后续被继承的对象可以有很多
+        *
+        * angular.forEach(),两个参数,第一个是循环数据数组(循环源),第二个是回调,回调里三个参数,第一个是当前循环数据,第二个是索引,第三个是循环源
+        * */
+
+    })
+</script>
+</html>

@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="myApp">
+<head>
+    <meta charset="UTF-8">
+    <title>指令</title>
+</head>
+<body ng-controller="myController">
+
+    <!--<hello class="demo"></hello>-->
+
+    <!--当restrict为注释M的时候  要这样写-->
+    <!--directive:hello -->
+
+
+</body>
+</html>
+<script src="lib/angular.min.js"></script>
+<script>
+    angular.module('myApp',[]).controller('myController',['$scope',function ($scope) {
+
+        $scope.name = 'Demo';
+
+    }]).directive('hello',[function () {
+        return {
+            /*
+            * 指创建指令的类型，有四种“E”、“A”、“C”、“M”
+             E:表示为elment类型（元素） 如:<my-div></my-div>
+             A:表示为属性、默认值       如:<div my-directive></div>
+             C:类名   如:<div class=“myClass”></div>
+             M:注释   如:<!—directive:hello --> 后面跟字符串或空格
+             这些选项可以单独使用，也可以混合使用
+             注:<my-div 这里在scope继承时是继承的>这里是个新的transclude作用域</my-div>
+            * */
+            restrict:'M',
+            /*
+            *  replace布尔类型
+             是否自动解释语义化的元素，默认为false
+            * */
+            replace:true,
+            /*
+            * 字符串或函数
+             字符串为一段HTML文本
+             函数返回也同样是一段HTML文本，但是函数可以接收两个参数tElement（如果restrict为E则为自己，否则为自己所在的元素）、tAttrs（同理）
+            * */
+            //注:这里的{{name}}是跟随所在的作用域来决定的
+            //template:'<button>点击{{name}}</button>',
+            template:function (tElement,tAtts) {
+                console.log(tElement,tAtts);
+
+                if (tAtts.class == 'demo'){
+                    tElement.on('click',function () {
+                        console.log("哈哈");
+                    });
+                }
+
+                return "<button>点我</button>"
+            }
+
+        }
+
+    }]);
+</script>

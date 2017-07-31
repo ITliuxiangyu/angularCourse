@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="myApp">
+<head>
+    <meta charset="UTF-8">
+    <title>指令</title>
+</head>
+<body ng-controller="myController">
+
+    <div  hi hello></div>
+
+</body>
+</html>
+<script src="lib/angular.min.js"></script>
+<script>
+    angular.module('myApp',[]).controller('myController',['$scope',function ($scope) {
+
+
+
+    }]).directive('hello',[function () {
+        return {
+
+            restrict:'A',
+            /*
+            *    priority该参数一般不进行设置，以免造成混乱，其中在angular中ngRepeat指令是所有内置指令中除ng-app之外优先级最高的指令(经测试发现现在新版的angular优先级和运行顺序更改了)，如需特殊操作可以设置
+            *    terminal  布尔类型
+             该参数是用来告诉angular停止运行当前元素上比本指令优先级低的指令，相同优先级的指令会继续运行
+             注：当两个指令都只设置了priority没设置terminal时是从低到高的，设置了terminal是只运行和自己相同或比自己高的
+             * */
+            priority:1,
+            terminal:true,
+            link:function () {
+                console.log('我是优先级1');
+            }
+        }
+
+    }]).directive('hi',[function () {
+        return {
+
+            restrict:'A',
+            priority:2,
+            link:function () {
+                console.log("我是优先级2");
+
+            }
+        }
+
+    }]);
+</script>

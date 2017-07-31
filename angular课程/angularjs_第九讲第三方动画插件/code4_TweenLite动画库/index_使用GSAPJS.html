@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="myApp">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" type="text/css" href="../lib/animate.css">
+    <style>
+        div{
+            width: 100px;
+            height: 100px;
+            background-color: aquamarine;
+        }
+    </style>
+</head>
+<body ng-controller="myController">
+    <div id="myDiv"></div>
+    <button ng-click="doSome()">点击</button>
+</body>
+</html>
+<script src="../lib/angular.js"></script>
+<script src="../lib/angular-animate.js"></script>
+
+<!--使用TweenLite必须要把和其配合的库也添加进去-->
+<!--<script src="../lib/CSSPlugin.min.js"></script>&lt;!&ndash;CSS渲染库&ndash;&gt;-->
+<!--<script src="../lib/EasePack.min.js"></script> --><!--缓动动画库-->
+<!--<script src="../lib/TweenLite.min.js"></script>-->
+
+<!--TweenMax已经涵盖了TweenLite需要的库所以直接引入TweenMax就可以使用-->
+<script src="../lib/TweenMax.min.js"></script>
+<script>
+    angular.module('myApp',[]).controller('myController',['$scope',function ($scope) {
+        /*
+        * TweenLite和TweenMax非常酷,无论或者是DOM是原生的还是jQuery还是jQlite类型的都可以被识别
+        * */
+//        var myDiv = angular.element(document.getElementById('myDiv'));
+        var myDiv = document.getElementById('myDiv');
+        $scope.doSome = function () {
+            /*
+            * 由于TweenMax是继承与TweenLite的所以我们引入了TweenMax之后是可以使用TweenLite的方法的
+            * TweenLite的构造方法是这个样子的：TweenLite(target:Object, duration:Number, vars:Object);
+             target为要操作的dom对象；
+             duroation为整个动画的持续时间;
+             vars为一个自属性集合对象，可以是一个属性如：{x:"500px"},或多个属性如：{x:"500px",top:"200px",width:"200px"}
+            * */
+//            TweenLite.to(myDiv,2,{alpha:0.5, top:300,volume:0});
+//            TweenMax.to(myDiv,2,{alpha:0.5, x:300,y:300,volume:0});
+
+            /*
+            * 除此之外TweenLite还可以自己选择DOM进行操作,不需要获取到传入
+            * */
+            TweenLite.to('#myDiv',2,{alpha:0.5, width:'300px',height:'300px',volume:0});
+
+        }
+    }]);
+</script>

@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="myApp">
+<head>
+    <meta charset="UTF-8">
+    <title>缓存对象的一些方法</title>
+</head>
+<body>
+
+    <div ng-controller="myController">
+
+    </div>
+
+
+</body>
+</html>
+<script src="../lib/angular.js"></script>
+<script>
+    angular.module('myApp',[]).config([function () {
+
+    }]).controller('myController',['$scope','$cacheFactory',function ($scope,$cacheFactory) {
+        //创建缓存对象
+        var cache = $cacheFactory('myCache',{capacity:20});
+        /*
+        * 缓存对象有自己的一些方法供我们使用
+        * 刚才使用的put()、get()都是缓存对象自己的方法
+        * */
+        cache.put('hello','world');
+
+        //info()方法:返回缓存对象的id、尺寸和选项
+        console.log(cache.info());
+
+        //remove()方法 用于在找到一个键值对的情况下从缓存中移除它,如果没有找到就返回undefined
+//        cache.remove('hello');
+        console.log(cache.get('hello'));
+
+        //removeAll() 用于重置缓存,同时移除所有已缓存的值
+//        cache.removeAll();
+        console.log(cache.get('hello'));
+
+        //destory()方法 用于从$cacheFactory缓存注册表中移除指定缓存的所有引用
+        cache.destroy('myCache');
+//        console.log(cache.get('hello'));
+        console.log(cache.info());
+    }]);
+</script>

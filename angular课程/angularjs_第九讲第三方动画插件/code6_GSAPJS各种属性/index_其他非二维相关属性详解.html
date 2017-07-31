@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="myApp">
+<head>
+    <meta charset="UTF-8">
+    <title>其他非二维属性</title>
+    <style>
+        div{
+            width: 100px;
+            height: 100px;
+            background-color: red;
+        }
+    </style>
+</head>
+<body ng-controller="myController">
+    <!--angular里的$event和原生里的event等价-->
+    <div id="rect" ng-click="useGSAPEase()">我是demo</div>
+</body>
+</html>
+<script src="../lib/angular.js"></script>
+<!--使用TweenLite必须要把和其配合的库也添加进去-->
+<script src="../lib/CSSPlugin.min.js"></script><!--CSS渲染库-->
+<script src="../lib/EasePack.min.js"></script><!--缓动效果库-->
+<script src="../lib/TweenLite.min.js"></script>
+<script>
+    angular.module('myApp',[]).controller('myController',['$scope',function ($scope) {
+        $scope.useGSAPEase = function (event) {
+            //第二部分，其他非二维属性操作
+            //GSAP不仅只做移动、放大缩小一些东西来做一些小动画
+            //边框的操作，因为前面我们用css定义的方块（rect）是没有边框的，所以我们先来设置一下它的边框，方法如下
+//             TweenLite.set("#rect",{border:"solid 1px #000"});// 其他的属性也可以使用TweenLite.set来设置
+//             TweenLite.to("#rect",1,{borderWidth:10,ease:Back.easeOut});
+//             TweenLite.to("#rect",2,{backgroundColor:"#FF00FF",ease:Back.easeOut});// 背景色
+//             TweenLite.to("#rect",2,{color:"#FFF",ease:Back.easeOut});// 字体颜色
+//             TweenLite.to("#rect",1,{fontSize:24,ease:Back.easeOut});// 字体大小
+//               TweenLite.to("#rect",1,{opacity:0.5,ease:Back.easeOut});// 透明度(兼容所有主流浏览器，包括IE6);
+            // 既然说到opacity，就是一下另一个调整元素透明度的属性autoAlpha(GSAP里的，CSS里没有)。当元素的透明度为0时，它会自动把元素的display属性值设置为0，即把元素隐藏
+            // TweenLite.to("#rect",1,{autoAlpha:0,ease:Back.easeOut});
+
+            //不需要缓动或渐变时，TweenLite依然是很有用的，你只需要使用TweenLite.set方法，就可以快速设置一个元素的多个属性，例如：
+//             TweenLite.set("#rect",{width:"400px",height:"400px",position:"static",margin:"0 auto"});
+
+            //第三部分，三维属性操作（rotationX rotationY rotationZ z等等）
+            // 并不是所有的浏览器都支持CSS3的3D属性，可以到以下网址(http://caniuse.com/transforms3d)查看都有哪些浏览器支持3D属性
+            // 设置元素的父元素的perspective的值，
+             TweenLite.set("body",{perspective:500});
+            // 或设置元素自身的transformPerspective的值
+             TweenLite.set("#rect",{transformPerspecity:500});
+            // 再或者，就直接设置CSS的默认transformPerspective的值
+             CSSPlugin.defaultTransformPerspectve=500;
+            // 测试
+//             TweenLite.to("#rect",1,{rotationX:30,ease:Back.easeOut});
+//             TweenLite.to("#rect",1,{rotationY:100,ease:Back.easeOut});
+             TweenLite.to("#rect",1,{rotationZ:45,ease:Back.easeOut});
+
+        }
+    }]);
+</script>

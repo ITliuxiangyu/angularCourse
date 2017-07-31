@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="myApp">
+<head>
+    <meta charset="UTF-8">
+    <title>angular_$watch</title>
+</head>
+<body>
+    <div ng-controller="myController">
+        <input placeholder="请输入" id="myInput" ng-model="name">
+        {{name}}
+    </div>
+</body>
+<script src="//cdn.bootcss.com/angular.js/1.5.8/angular.min.js"></script>
+<script>
+    /*
+    * $scope.$watch 监控对象的变化,第一个参数为被监控的对象,回调里有两个参数一个新值一个旧值
+    * */
+    var app = angular.module('myApp',[]);
+    app.controller('myController',function ($scope) {
+        $scope.$watch('name',function (newVal,oldVal) {
+            console.log(newVal);
+            console.log(oldVal);
+        });
+        $scope.changeVal = function () {
+            $scope.name = document.querySelector('#myInput').value;
+        };
+    });
+</script>
+</html>

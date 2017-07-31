@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="myApp">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body ng-controller="myController">
+
+    <div ng-repeat-start="name in nameArray">
+        {{name}}
+    </div>
+
+    <div ng-repeat-end="name">
+        我是end
+    </div>
+
+</body>
+<script src="js/angular.js"></script>
+<script>
+    /*
+    * ng-repeat-start和ng-repeat-end是配套使用的,只有在ng-repeat-start里写 * in * ,ng-repeat-end是不用写的
+    * 原理和ng-repeat相同
+    * */
+    angular.module('myApp',[]).controller('myController',['$scope',function ($scope) {
+        $scope.nameArray = ['张三','李四','王二','麻子'];
+    }])
+</script>
+</html>

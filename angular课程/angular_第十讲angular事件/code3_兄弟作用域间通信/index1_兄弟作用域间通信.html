@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="myApp">
+<head>
+    <meta charset="UTF-8">
+    <title>兄弟作用域间通信</title>
+</head>
+<body>
+    <!--rootController是父作用域-->
+    <div ng-controller="rootController">
+        <!--firstController和secondController是兄弟作用域,兄弟作用域通信就需要借助一个父作用域来完成-->
+        <div ng-controller="firstController">
+            <button ng-click="emitMsg()">兄传播事件</button>
+        </div>
+        <div ng-controller="secondController">
+
+        </div>
+    </div>
+</body>
+</html>
+<script src="../lib/angular.js"></script>
+<script>
+    /*
+    * 兄弟作用域使用事件通信流程
+    * 1.首先兄作用域向父作用域传播一个事件
+    * 2.父作用域接收兄作用域传播的事件,然后在向下传播给子作用域
+    * 3.弟作用域监听父作用域传播的消息,这个消息里是兄作用域传播的消息
+    * 这样就实现了兄弟作用域通信
+    * */
+   
+    angular.module('myApp',[]).controller('rootController',['$scope',function ($scope) {
+        $scope.$on('hello',function (evt,msg) {
+            console.log("父作用域收到消息—————" + msg);
+            evt.stopPropagation();//禁止再向$rootScope传播
+            $scope.$broadcast('next',msg);
+        })
+    }]).controller('firstController',['$scope',function ($scope) {
+        $scope.emitMsg = function () {
+            $scope.$emit('hello','你好我是兄作用域');
+        };
+    }]).controller('secondController',['$scope',function ($scope) {
+        $scope.$on('hello',function (evt,msg) {
+            console.log("弟作用域不能直接收到消息----" + msg);
+        });
+        $scope.$on('next',function (evt,msg) {
+            console.log("弟作用域收到了父作用域传递的兄的消息----" + msg);
+        })
+    }])
+</script>

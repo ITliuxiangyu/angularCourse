@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="myApp">
+<head>
+    <meta charset="UTF-8">
+    <title>忽略传播的事件</title>
+</head>
+<body>
+    <div ng-controller="rootController"><!--最顶层的父controller-->
+
+        <button ng-click="broadCast()">向下传播事件</button>
+
+        <div ng-controller="parentController"><!--父controller-->
+
+            <div ng-controller="childController"><!--子controller-->
+
+            </div>
+
+        </div>
+    </div>
+</body>
+</html>
+<script src="../lib/angular.js"></script>
+<script>
+    angular.module('myApp',[]).controller('rootController',['$scope',function ($scope) {
+
+        $scope.broadCast = function () {
+            $scope.$broadcast('hi','我是zaq');
+        };
+
+    }]).controller('parentController',['$scope',function ($scope) {
+        $scope.$on('hi',function (evt,msg) {
+            /*
+            * $broadcast没有和$emit一样的停止事件继续广播的方法,但是可以利用preventDefault()函数和defaultPrevented属性来判断是否忽略传播的事件,evt.defaultPrevented默认是false
+            * */
+//            console.log(evt.defaultPrevented);
+            evt.preventDefault();
+
+        })
+
+    }]).controller('childController',['$scope',function ($scope) {
+        $scope.$on('hi',function (evt,msg) {
+            console.log(evt.defaultPrevented);
+            if(evt.defaultPrevented){
+               //evt.defaultPrevented为真说明我们可以做一些忽略的操作
+            }
+        })
+    }])
+</script>

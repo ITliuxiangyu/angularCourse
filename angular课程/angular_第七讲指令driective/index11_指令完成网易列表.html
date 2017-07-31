@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="myApp">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style>
+        .listDiv{
+            border-bottom: 1px double #eeeeee;
+            display: flex;
+            flex-direction: row;
+            height: 110px;
+        }
+        .leftImg{
+            width: 100px;
+            height: 100px;
+            padding: 3px 3px 3px 3px;
+            border-radius: 5px;
+        }
+        .spanDiv{
+            width: 70%;
+            margin: 5px;
+            position: relative;
+        }
+        .sourceSpan{
+            position: absolute;
+            right: 10px;
+            bottom: 10px;
+            font-size: .8em;
+            color: #adadad;
+        }
+    </style>
+</head>
+<body ng-controller="myController">
+
+    <div ng-repeat="news in listArray">
+
+        <wy-list data-newsimg="{{news.imgsrc}}" data-newstitle="{{news.title}}" data-newssource="{{news.source}}"></wy-list>
+
+    </div>
+
+</body>
+</html>
+<script src="angular.min.js"></script>
+<script>
+    angular.module('myApp',[]).controller("myController",['$scope','$http',function ($scope,$http) {
+        $http.get('wy.json').then(function (result) {
+            result = result.data;
+            $scope.listArray = result.T1348647853363;
+        })
+    }]).directive('wyList',[function () {
+        return {
+            restrict:'EAC',
+            replace:true,
+            template:'<div class="listDiv"><img src="{{newsimg}}" class="leftImg"><div class="spanDiv"><span>{{newstitle}}</span><span class="sourceSpan">{{newssource}}</span></div></div>',
+            link:function (scope,ele,att) {
+                var eleStr = ele.html();
+                eleStr = eleStr.replace("{{newsimg}}",att.newsimg);
+                eleStr = eleStr.replace("{{newstitle}}",att.newstitle);
+                eleStr = eleStr.replace("{{newssource}}",att.newssource);
+                ele.html(eleStr);
+            }
+        }
+    }]);
+</script>

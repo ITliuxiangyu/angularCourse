@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="myApp">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body ng-controller="myController">
+    <div>
+        <input placeholder="请输入" ng-model="name">
+        <p ng-if="name">{{name | filterName}}</p>
+    </div>
+</body>
+<script src="js/angular.js"></script>
+<script>
+
+    angular.module('myApp',[]).controller('myController',['$scope','$filter','$rootScope',function ($scope,$filter,$rootScope) {
+
+    }]).filter('filterName',function () {
+        return function (obj) {
+            var array = [{'name' :'严东凯'},{'name' :'李玉杰'},{'name':'王帅涛'},{'name' :'张浩'},{'name' :'刘亚鹏'},{'name':'戚殿卿'},{'name':'张德宇'},{'name':'陈红立'},{'name':'司传峰'},{'name':'1'},{'name':'2'},{'name':'3'},{'name':'3'},{'name':'2'}];
+            var objArray = [];
+            angular.forEach(array,function (data,index,array) {
+                if(data.name.indexOf(obj) >= 0){
+                    objArray.push(data.name);
+                }
+            });
+            return objArray;
+        }
+    });
+</script>
+</html>
